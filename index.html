@@ -7,212 +7,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. ATMOSFERA E SFONDO --- */
+        /* --- STILI DI BASE --- */
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+            margin: 0; padding: 0; height: 100vh;
             background: radial-gradient(circle at center, #6d1b1b 0%, #2c0808 100%);
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; overflow: hidden;
             font-family: 'Playfair Display', serif;
         }
 
-        /* Titolo Scenografico */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
-            font-size: 3.5rem;
-            color: #ffda79; 
+            font-size: 3.5rem; color: #ffda79; 
             text-shadow: 0 0 10px rgba(255, 218, 121, 0.5), 2px 2px 0px #3d0505;
-            /* BUG FIX: Aumentato il margine sotto per fare spazio alla lettera che esce */
-            margin-bottom: 100px; 
-            z-index: 100; /* BUG FIX: Ora il titolo sta sempre sopra a tutto */
-            text-align: center;
-            animation: luccichio 3s infinite alternate;
-            position: relative;
+            margin-bottom: 100px; z-index: 100; text-align: center;
+            animation: luccichio 3s infinite alternate; position: relative;
         }
+        @keyframes luccichio { from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); } to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); } }
 
-        @keyframes luccichio {
-            from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); }
-            to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); }
-        }
-
-        /* Neve CSS */
         .neve {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC4yKSIvPjwvc3ZnPg==');
-            animation: cadutaNeve 25s linear infinite;
-            z-index: 1;
+            animation: cadutaNeve 25s linear infinite; z-index: 1;
         }
         @keyframes cadutaNeve { to { background-position: 0 500px; } }
 
-        /* --- 2. COSTRUZIONE BUSTA 3D --- */
+        /* --- BUSTA --- */
         .wrapper-busta {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            cursor: pointer;
-            z-index: 10;
-            /* Per compensare visivamente, spostiamo la busta un po' più giù */
+            position: relative; width: 320px; height: 220px; cursor: pointer; z-index: 10;
             transform: translateY(20px);
         }
+        .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
+        @keyframes galleggia { 0%, 100% { transform: translateY(20px) rotate(0deg); } 50% { transform: translateY(10px) rotate(1deg); } }
 
-        .wrapper-busta:not(.aperta) {
-            animation: galleggia 3s ease-in-out infinite;
-        }
-        @keyframes galleggia {
-            0%, 100% { transform: translateY(20px) rotate(0deg); }
-            50% { transform: translateY(10px) rotate(1deg); }
-        }
+        .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #3e0909, #581212); border-radius: 0 0 10px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .lettera { position: absolute; left: 15px; bottom: 10px; width: 290px; height: 180px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; border: 2px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+        .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #922b21; z-index: 20; border-radius: 0 0 0 10px; }
+        .flap-lati.destra { left: auto; right: 0; border-width: 110px 160px 110px 0; border-color: transparent #922b21 transparent transparent; border-radius: 0 0 10px 0; }
+        .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 160px 120px 160px; border-color: transparent transparent #c0392b transparent; z-index: 21; border-radius: 0 0 10px 10px; filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1)); }
+        .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 130px 160px 0 160px; border-color: #d94536 transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
+        .sigillo { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); border-radius: 50%; z-index: 40; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; font-size: 24px; color: #581212; transition: opacity 0.3s; cursor: pointer; }
 
-        .busta-body {
-            position: absolute;
-            bottom: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, #3e0909, #581212);
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
+        .wrapper-busta.aperta .flap-sopra { transform: rotateX(180deg); z-index: 1; }
+        .wrapper-busta.aperta .sigillo { opacity: 0; pointer-events: none; }
+        .wrapper-busta.aperta .lettera { bottom: 100px; z-index: 25; transform: scale(1.05); }
 
-        /* IL FOGLIO (Lettera) */
-        .lettera {
-            position: absolute;
-            left: 15px; bottom: 10px;
-            width: 290px;
-            height: 180px;
-            background: #fffaf0;
-            border-radius: 5px;
-            z-index: 10;
-            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-            border: 2px solid #d4af37;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-        }
-
-        /* ALETTE */
-        .flap-lati {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 110px 0 110px 160px;
-            border-color: transparent transparent transparent #922b21;
-            z-index: 20;
-            border-radius: 0 0 0 10px;
-        }
-        .flap-lati.destra {
-            left: auto; right: 0;
-            border-width: 110px 160px 110px 0;
-            border-color: transparent #922b21 transparent transparent;
-            border-radius: 0 0 10px 0;
-        }
-
-        .flap-sotto {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 0 160px 120px 160px;
-            border-color: transparent transparent #c0392b transparent;
-            z-index: 21;
-            border-radius: 0 0 10px 10px;
-            filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1));
-        }
-
-        .flap-sopra {
-            position: absolute;
-            top: 0; left: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 130px 160px 0 160px;
-            border-color: #d94536 transparent transparent transparent;
-            z-index: 30;
-            transform-origin: top;
-            transition: transform 0.6s ease-in-out, z-index 0.2s;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
-        }
-
-        .sigillo {
-            position: absolute;
-            bottom: 90px; left: 50%;
-            transform: translateX(-50%);
-            width: 45px; height: 45px;
-            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
-            border-radius: 50%;
-            z-index: 40;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; color: #581212;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
-
-        /* --- ANIMAZIONE APERTURA CORRETTA --- */
-        .wrapper-busta.aperta .flap-sopra {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-        
-        .wrapper-busta.aperta .sigillo {
-            opacity: 0; pointer-events: none;
-        }
-
-        .wrapper-busta.aperta .lettera {
-            /* BUG FIX: Ridotto il valore di uscita. Prima era 120px (troppo alto) */
-            bottom: 100px; 
-            z-index: 25;
-            /* BUG FIX: Ridotto leggermente lo scale per non ingombrare */
-            transform: scale(1.05); 
-        }
-
-        /* STILE CONTENUTI */
-        .testo-lettera {
-            color: #8b0000;
-            font-size: 1.5rem;
-            margin: 0 0 15px 0;
-            line-height: 1.2;
-            text-align: center;
-        }
-        
-        input {
-            width: 80%; padding: 8px;
-            border: 1px solid #ccc; border-radius: 4px;
-            font-family: 'Playfair Display', serif;
-            text-align: center; font-size: 1rem;
-            margin-bottom: 10px;
-            background: rgba(255,255,255,0.9);
-        }
-        
-        button {
-            background: #8b0000; color: #fff;
-            border: none; padding: 8px 25px;
-            border-radius: 30px; font-size: 1rem;
-            cursor: pointer; transition: transform 0.1s;
-            font-family: 'Playfair Display', serif;
-        }
+        .testo-lettera { color: #8b0000; font-size: 1.5rem; margin: 0 0 15px 0; line-height: 1.2; text-align: center; }
+        input { width: 80%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1rem; margin-bottom: 10px; background: rgba(255,255,255,0.9); }
+        button { background: #8b0000; color: #fff; border: none; padding: 8px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         button:hover { background: #a91e1e; transform: scale(1.05); }
 
-        /* PLAYER */
-        #overlay-video {
+        /* --- VISUALIZZATORE FOTO (Modificato per immagini) --- */
+        #overlay-cartolina {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 200; /* Z-index altissimo per coprire tutto */
+            background: rgba(0,0,0,0.9); /* Sfondo scuro */
+            z-index: 200; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            opacity: 0; transition: opacity 0.5s;
         }
-        video { width: 90%; max-width: 900px; border-radius: 10px; box-shadow: 0 0 50px rgba(255,255,255,0.2); }
+        
+        #immagine-cartolina { 
+            max-width: 90%; 
+            max-height: 80vh; 
+            border: 15px solid white; /* Cornice bianca */
+            box-shadow: 0 0 50px rgba(255,215,0,0.2); 
+            border-radius: 5px;
+            transform: scale(0.9); transition: transform 0.5s;
+        }
+
         .btn-chiudi { margin-top: 20px; background: transparent; border: 1px solid white; color: white; cursor: pointer; padding: 10px 20px; border-radius: 20px;}
     </style>
 </head>
@@ -223,32 +89,24 @@
     <div class="titolo-auguri">Buon Natale</div>
 
     <div class="wrapper-busta" id="busta" onclick="apriBusta()">
-        
         <div class="busta-body"></div>
-
         <div class="lettera" onclick="event.stopPropagation()">
-            <h2 class="testo-lettera">Per chi è questo regalo?</h2>
+            <h2 class="testo-lettera">Per chi è la cartolina?</h2>
             <input type="text" id="nomeInput" placeholder="Scrivi il nome...">
-            <button onclick="guardaVideo()">Apri</button>
+            <button onclick="mostraCartolina()">Apri</button>
         </div>
-
-        <div class="flap-lati"></div>
-        <div class="flap-lati destra"></div>
-        <div class="flap-sotto"></div>
-        
-        <div class="flap-sopra"></div>
-        <div class="sigillo">🎄</div>
-
+        <div class="flap-lati"></div><div class="flap-lati destra"></div><div class="flap-sotto"></div>
+        <div class="flap-sopra"></div><div class="sigillo">🎄</div>
     </div>
 
-    <div id="overlay-video">
-        <video id="player" controls></video>
+    <div id="overlay-cartolina">
+        <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
         <button class="btn-chiudi" onclick="location.reload()">Chiudi X</button>
     </div>
 
     <script>
-        // CONFIGURAZIONE VIDEO
-        const databaseVideo = {
+        // --- IL TUO DATABASE CARTOLINE ---
+        const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
 
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
@@ -277,7 +135,10 @@
             "zio dado":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
             "davide":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
         };
-        const videoDefault = "video/auguri_generici.mp4";
+        
+        // FOTO GENERICA (Se il nome non è in lista)
+        // Se non ne hai una, puoi mettere qui il link di una delle altre come "default"
+        const cartolinaDefault = "https://i.postimg.cc/QrSt789/generica.jpg"; 
 
         let isAperta = false;
 
@@ -291,25 +152,33 @@
             }
         }
 
-        function guardaVideo() {
+        function mostraCartolina() {
             const nome = document.getElementById('nomeInput').value.trim().toLowerCase();
-            const player = document.getElementById('player');
-            const overlay = document.getElementById('overlay-video');
+            const imgElement = document.getElementById('immagine-cartolina');
+            const overlay = document.getElementById('overlay-cartolina');
 
             if(nome === "") return;
 
-            if (databaseVideo[nome]) {
-                player.src = databaseVideo[nome];
+            // Se il nome esiste nel database, usa quel link
+            if (databaseCartoline[nome]) {
+                imgElement.src = databaseCartoline[nome];
             } else {
-                player.src = videoDefault;
+                // Altrimenti usa quella generica
+                imgElement.src = cartolinaDefault; 
             }
 
+            // Mostra l'overlay
             overlay.style.display = 'flex';
-            player.play();
+            
+            // Animazione di comparsa
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                imgElement.style.transform = 'scale(1)';
+            }, 10);
         }
 
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") guardaVideo();
+            if (event.key === "Enter") mostraCartolina();
         });
     </script>
 </body>
