@@ -3,255 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auguri di Natale!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <title>Un Messaggio per Te</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- STILE GENERALE --- */
-        body, html {
+        /* --- 1. LO SFONDO NEVICATO --- */
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        #scena {
-            position: relative;
-            width: 100%;
             height: 100vh;
-            /* IMPORTANTE: Assicurati che la tua immagine si chiami 'sfondo.png' */
-            background-image: url('sfondo.png'); 
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* --- I REGALI (Area Cliccabile a SINISTRA) --- */
-        #area-regali {
-            position: absolute;
-            /* Coordinate per i regali a sinistra nell'immagine che hai mandato */
-            bottom: 5%;       
-            left: 2%;     
-            width: 25%;     
-            height: 45%;
-            cursor: pointer;
-            
-            /* Bordo tratteggiato giallo per vederlo (poi mettilo "none") */
-            border: 3px dashed rgba(255, 255, 0, 0.6); 
-            border-radius: 10px;
-            
-            /* Animazione "Saltello" */
-            animation: saltello 3s infinite ease-in-out;
-        }
-        
-        #area-regali:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-        }
-
-        @keyframes saltello {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Fumetto "APRIMI" */
-        .fumetto {
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-5deg);
-            background: #ff4757;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-family: 'Luckiest Guy', cursive; /* Font cicciotto */
-            font-size: 24px;
-            letter-spacing: 1px;
-            box-shadow: 4px 4px 0 #2f3542;
-            white-space: nowrap;
-            pointer-events: none;
-        }
-        
-        .fumetto::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: #ff4757 transparent transparent transparent;
-        }
-
-        /* --- POPUP (Stile Legno e Calore) --- */
-        #overlay-busta, #video-container {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: radial-gradient(circle at center, #8e0e00, #1f0500); /* Rosso scuro natalizio */
+            display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100;
-            backdrop-filter: blur(8px);
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .busta-box {
-            background: #fff5e6; /* Crema caldo */
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            /* Bordo stile legno scuro */
-            border: 8px solid #8b4513; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            max-width: 450px;
-            width: 90%;
-            position: relative;
-        }
-
-        /* Decorazione natalizia sopra il box */
-        .busta-box::before {
-            content: '🎄';
-            font-size: 50px;
+        /* Effetto neve semplice */
+        .neve {
             position: absolute;
-            top: -35px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC4zKSIvPjwvc3ZnPg==');
+            animation: cadutaNeve 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes cadutaNeve {
+            from { background-position: 0 0; }
+            to { background-position: 0 500px; }
+        }
+
+        /* --- 2. LA BUSTA MAGICA (CSS PURO) --- */
+        .wrapper-busta {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+            animation: galleggia 3s ease-in-out infinite; /* La rende viva */
+        }
+
+        .busta {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #c0392b;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.5s;
+        }
+
+        /* Il foglio che esce dalla busta */
+        .foglio {
+            position: absolute;
+            top: 10px; left: 15px;
+            width: 270px;
+            height: 180px;
+            background: white;
+            border-radius: 5px;
+            transition: top 0.5s, z-index 0.2s;
+            z-index: 1; /* Inizialmente dentro la busta */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /* I triangoli che formano la busta */
+        .tasca {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #e74c3c; /* Rosso più chiaro */
+            z-index: 3;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .aletta {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #c0392b; /* Rosso scuro */
+            transform-origin: top;
+            transition: transform 0.4s, z-index 0.2s;
+            z-index: 4;
+        }
+
+        /* Il sigillo dorato */
+        .sigillo {
+            position: absolute;
+            bottom: 70px; /* Posizionato sulla punta dell'aletta */
             left: 50%;
             transform: translateX(-50%);
+            width: 40px; height: 40px;
+            background: #f1c40f;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
         }
 
-        h2 { 
-            color: #c0392b; 
-            font-family: 'Luckiest Guy', cursive;
-            font-size: 35px;
-            margin-top: 20px;
-            text-shadow: 2px 2px 0 #ffeaa7;
+        /* --- 3. ANIMAZIONI INTERATTIVE --- */
+        
+        /* Quando si passa sopra col mouse */
+        .wrapper-busta:hover .busta {
+            transform: scale(1.02);
         }
 
-        input {
-            width: 70%;
-            padding: 15px;
-            font-size: 22px;
-            margin: 20px 0;
-            border: 3px solid #e1b12c;
-            border-radius: 10px;
-            text-align: center;
-            font-family: 'Fredoka', sans-serif;
-            background: #fff;
-            color: #2d3436;
+        /* STATO: APERTO (Classi aggiunte via JS) */
+        .wrapper-busta.aperta {
+            animation: none; /* Smette di galleggiare */
+            cursor: default;
+        }
+
+        .wrapper-busta.aperta .aletta {
+            transform: rotateX(180deg); /* Apre l'aletta */
+            z-index: 0; /* Va dietro */
+        }
+
+        .wrapper-busta.aperta .sigillo {
+            opacity: 0; /* Nasconde il sigillo */
+            transition: opacity 0.2s;
+        }
+
+        .wrapper-busta.aperta .foglio {
+            top: -120px; /* Il foglio esce fuori in alto */
+            z-index: 2; /* Va sopra la tasca */
+            height: 250px; /* Si allunga un po' */
+        }
+
+        @keyframes galleggia {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- CONTENUTO DEL FOGLIO --- */
+        h2 {
+            font-family: 'Great Vibes', cursive;
+            color: #c0392b;
+            font-size: 32px;
+            margin: 0 0 10px 0;
         }
         
-        input:focus { 
-            outline: none;
-            border-color: #c0392b;
-            box-shadow: 0 0 15px rgba(192, 57, 43, 0.3);
+        p { font-size: 14px; color: #555; margin-bottom: 15px; }
+
+        input {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 24px;
-            font-family: 'Luckiest Guy', cursive;
-            background: #27ae60; /* Verde natale */
+            background: #27ae60;
             color: white;
             border: none;
-            border-radius: 10px;
+            padding: 8px 20px;
+            border-radius: 20px;
             cursor: pointer;
-            border-bottom: 5px solid #1e8449; /* Effetto 3D */
-            transition: all 0.1s;
-        }
-
-        button:active {
-            transform: translateY(4px);
-            border-bottom: 1px solid #1e8449;
-        }
-
-        /* --- VIDEO PLAYER --- */
-        video {
-            width: 90%;
-            max-width: 900px;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            border: 4px solid #fff;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: 2px solid white;
             font-weight: bold;
-            cursor: pointer;
+            transition: background 0.2s;
         }
+        button:hover { background: #219150; }
+
+        /* --- VIDEO PLAYER A TUTTO SCHERMO --- */
+        #overlay-video {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video { width: 100%; max-width: 900px; border-radius: 10px; }
+        
+        .close-btn {
+            position: absolute; top: 20px; right: 20px;
+            color: white; background: transparent; border: 1px solid white;
+            padding: 10px; cursor: pointer; border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="scena">
-        <div id="area-regali" onclick="apriBusta()">
-            <div class="fumetto">APRIMI!</div>
+    <div class="neve"></div>
+
+    <div class="wrapper-busta" id="bustaContainer" onclick="apriBusta()">
+        <div class="busta">
+            
+            <div class="aletta">
+                <div class="sigillo">🎄</div>
+            </div>
+            
+            <div class="foglio" onclick="event.stopPropagation()"> <h2>Buon Natale</h2>
+                <p>C'è un video messaggio speciale per te.</p>
+                <input type="text" id="nomeInput" placeholder="Il tuo nome...">
+                <button onclick="guardaVideo()">GUARDA</button>
+            </div>
+
+            <div class="tasca"></div>
         </div>
     </div>
 
-    <div id="overlay-busta">
-        <div class="busta-box">
-            <h2>A chi è destinato?</h2>
-            <p style="color:#8b4513; font-size:18px;">Scrivi il nome sulla busta:</p>
-            <input type="text" id="nomeInput" placeholder="Nome...">
-            <br>
-            <button onclick="controllaNome()">SCARTA</button>
-            <p id="messaggio-errore" style="color:#c0392b; display:none; margin-top:15px; font-weight:bold;">Mmh, non trovo il regalo!</p>
-            <p style="font-size:14px; color:#a4b0be; margin-top:20px; cursor:pointer; text-decoration:underline;" onclick="chiudiBusta()">Torna alla baita</p>
-        </div>
-    </div>
-
-    <div id="video-container">
+    <div id="overlay-video">
         <video id="player" controls></video>
-        <button class="close-btn" onclick="location.reload()">X</button>
+        <button class="close-btn" onclick="location.reload()">CHIUDI</button>
     </div>
 
     <script>
-        // CONFIGURAZIONE
-        const databaseRegali = {
+        // --- CONFIGURA QUI I VIDEO ---
+        const databaseVideo = {
             "marco": "video/auguri_marco.mp4",
             "giulia": "video/auguri_giulia.mp4",
-            "mamma": "video/auguri_mamma.mp4",
+            "mamma": "video/auguri_mamma.mp4"
         };
-        
-        const videoGenerico = "video/auguri_generici.mp4";
+        const videoDefault = "video/auguri_generici.mp4";
 
-        // LOGICA
+        // --- LOGICA ---
+        let aperta = false;
+
         function apriBusta() {
-            document.getElementById('overlay-busta').style.display = 'flex';
-            document.getElementById('nomeInput').focus();
+            if (!aperta) {
+                document.getElementById('bustaContainer').classList.add('aperta');
+                aperta = true;
+            }
         }
 
-        function chiudiBusta() {
-            document.getElementById('overlay-busta').style.display = 'none';
-        }
+        function guardaVideo() {
+            const nome = document.getElementById('nomeInput').value.trim().toLowerCase();
+            const player = document.getElementById('player');
+            const overlay = document.getElementById('overlay-video');
 
-        function controllaNome() {
-            let nomeInput = document.getElementById('nomeInput').value.trim().toLowerCase();
-            let player = document.getElementById('player');
-            
-            if (nomeInput === "") return;
+            if(nome === "") return; // Non fa nulla se vuoto
 
-            if (databaseRegali[nomeInput]) {
-                player.src = databaseRegali[nomeInput];
+            if (databaseVideo[nome]) {
+                player.src = databaseVideo[nome];
             } else {
-                player.src = videoGenerico;
+                player.src = videoDefault;
             }
 
-            document.getElementById('overlay-busta').style.display = 'none';
-            document.getElementById('video-container').style.display = 'flex';
+            overlay.style.display = 'flex';
             player.play();
         }
         
-        // Permette di premere INVIO invece di cliccare il bottone
+        // Invio con tasto Enter
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                controllaNome();
-            }
+            if (event.key === "Enter") guardaVideo();
         });
     </script>
 </body>
