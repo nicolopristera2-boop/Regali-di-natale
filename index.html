@@ -3,176 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buon Natale in Baita</title>
+    <title>Auguri di Natale!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- STILE GENERALE E ATMOSFERA --- */
+        /* --- STILE CARTOON --- */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
-            font-family: 'Georgia', serif; /* Font più elegante */
-            background-color: #1a0e0e; /* Colore scuro di sfondo */
+            font-family: 'Fredoka', sans-serif; /* Font giocoso */
         }
 
-        /* Il contenitore della scena */
         #scena {
             position: relative;
             width: 100%;
             height: 100vh;
-            /* Immagine di sfondo: Baita con camino e albero */
-            background-image: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=1920&auto=format&fit=crop'); 
+            /* IMPORTANTE: Qui c'è un'immagine provvisoria stile illustrazione.
+               Quando hai la tua immagine, salvala nella cartella e scrivi: url('sfondo.jpg'); 
+            */
+            background-image: url('https://img.freepik.com/free-vector/christmas-fireplace-scene-interior_107791-1507.jpg?w=1380&t=st=1703060000~exp=1703060600~hmac=abc'); 
             background-size: cover;
             background-position: center;
         }
 
-        /* Effetto vignettatura per rendere l'ambiente "caldo" e intimo */
-        #filtro-atmosfera {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
-            pointer-events: none; /* Permette di cliccare attraverso il filtro */
-        }
-
-        /* --- ELEMENTI INTERATTIVI --- */
-
-        /* L'AREA CLICCABILE (L'ALBERO) */
-        /* Nota: Ho messo un bordo rosso per farti vedere dov'è. 
-           Quando sei pronto, cambia "border: 2px dashed red" in "border: none" */
+        /* --- L'ALBERO (Area Cliccabile) --- */
         #area-regali {
             position: absolute;
-            /* Queste coordinate posizionano il box sull'albero nella foto scelta */
-            top: 25%;       
-            right: 15%;     /* L'albero in questa foto è sulla destra */
-            width: 25%;     
-            height: 55%;
+            /* Adatta questi valori alla TUA immagine */
+            bottom: 10%;       
+            right: 15%;     
+            width: 20%;     
+            height: 40%;
             cursor: pointer;
-            border: 2px dashed rgba(255, 0, 0, 0.7); /* RIMUOVI QUESTO BORDO ALLA FINE */
-            border-radius: 30% 30% 10% 10%; /* Forma vagamente ad albero */
-            transition: transform 0.3s ease;
+            
+            /* Bordo tratteggiato per aiutarti a posizionarlo (poi toglilo!) */
+            border: 3px dashed #fff; 
+            border-radius: 20px;
+            
+            /* Animazione "Respiro" per attirare l'attenzione */
+            animation: respiro 2s infinite ease-in-out;
         }
-
+        
+        /* Una manina che appare quando passi sopra col mouse */
         #area-regali:hover {
-            /* Effetto ingrandimento leggero quando passi il mouse */
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); /* Alone dorato */
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
         }
 
-        /* Testo fluttuante "Clicca qui" */
-        .indicazione {
+        @keyframes respiro {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Testo fluttuante sopra l'albero */
+        .fumetto {
             position: absolute;
-            bottom: -40px;
-            width: 100%;
-            text-align: center;
-            color: white;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #d63031;
+            padding: 10px 20px;
+            border-radius: 20px;
             font-weight: bold;
-            text-shadow: 0 2px 4px black;
-            font-size: 1.2rem;
-            animation: galleggia 2s infinite ease-in-out;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        /* Triangolino del fumetto */
+        .fumetto::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
         }
 
-        @keyframes galleggia {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* --- POPUP BUSTA E VIDEO (Stile migliorato) --- */
+        /* --- POPUP (Stile Giocoso) --- */
         #overlay-busta, #video-container {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); /* Sfondo più scuro */
+            background: rgba(45, 52, 54, 0.9); /* Sfondo scuro semi-trasparente */
             justify-content: center;
             align-items: center;
             z-index: 100;
-            backdrop-filter: blur(5px); /* Sfoca lo sfondo dietro */
         }
 
         .busta-box {
-            background: #fffaf0; /* Color crema */
-            padding: 50px;
-            border-radius: 15px;
+            background: #ffeaa7; /* Giallo crema */
+            padding: 40px;
+            border-radius: 25px; /* Angoli molto rotondi */
             text-align: center;
-            border: 2px solid #d4af37; /* Bordo dorato */
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+            border: 6px solid #fab1a0; /* Bordo color salmone */
+            box-shadow: 0 10px 0 #e17055; /* Effetto 3D cartoon */
             max-width: 400px;
-            width: 80%;
-            font-family: 'Georgia', serif;
+            width: 90%;
+            animation: popIn 0.3s ease-out;
         }
 
-        h2 { color: #8b0000; margin-top: 0; }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h2 { 
+            color: #d63031; 
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
 
         input {
             width: 80%;
-            padding: 12px;
-            font-size: 18px;
+            padding: 15px;
+            font-size: 20px;
             margin: 20px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 3px solid #fab1a0;
+            border-radius: 15px;
             text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            outline: none;
+            color: #636e72;
         }
+        
+        input:focus { border-color: #d63031; }
 
         button {
-            padding: 12px 30px;
-            font-size: 18px;
-            background: #8b0000; /* Rosso scuro natalizio */
+            padding: 15px 40px;
+            font-size: 22px;
+            font-family: 'Fredoka', sans-serif;
+            background: #00b894; /* Verde menta acceso */
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: background 0.3s;
+            box-shadow: 0 6px 0 #008f72; /* Effetto 3D bottone */
+            transition: transform 0.1s, box-shadow 0.1s;
         }
 
-        button:hover { background: #a50000; }
+        button:active {
+            transform: translateY(6px); /* Schiaccia il bottone */
+            box-shadow: 0 0 0 #008f72;
+        }
 
+        /* --- VIDEO PLAYER --- */
         video {
             width: 90%;
-            max-width: 900px;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            border: 2px solid #333;
+            max-width: 800px;
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: #d63031;
+            color: white;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #a11b1b;
         }
     </style>
 </head>
 <body>
 
     <div id="scena">
-        <div id="filtro-atmosfera"></div>
-
         <div id="area-regali" onclick="apriBusta()">
-            <div class="indicazione">Apri i regali 🎁</div>
+            <div class="fumetto">Cliccami! 🎄</div>
         </div>
     </div>
 
     <div id="overlay-busta">
         <div class="busta-box">
-            <h2>Buon Natale!</h2>
-            <p>Questo regalo è riservato.<br>Inserisci il tuo nome per aprirlo:</p>
-            <input type="text" id="nomeInput" placeholder="Il tuo nome...">
+            <h2>Ho un regalo per te!</h2>
+            <p style="color:#636e72; font-size:18px;">Dimmi, come ti chiami?</p>
+            <input type="text" id="nomeInput" placeholder="Scrivi qui il tuo nome...">
             <br>
-            <button onclick="controllaNome()">Scarta Regalo</button>
-            <p id="messaggio-errore" style="color:red; display:none; margin-top:10px;">Nome non trovato, riprova!</p>
-            <p style="font-size:12px; color:#666; margin-top:20px; cursor:pointer" onclick="chiudiBusta()">Indietro</p>
+            <button onclick="controllaNome()">APRI ORA</button>
+            <p id="messaggio-errore" style="color:#d63031; display:none; margin-top:15px; font-weight:bold;">Mmh, non trovo questo nome!</p>
+            <p style="font-size:14px; color:#b2bec3; margin-top:20px; cursor:pointer" onclick="chiudiBusta()">Torna indietro</p>
         </div>
     </div>
 
     <div id="video-container">
         <video id="player" controls></video>
-        <button style="position:absolute; top:30px; right:30px; background:transparent; border:1px solid white;" onclick="location.reload()">X</button>
+        <button class="close-btn" onclick="location.reload()">X</button>
     </div>
 
     <script>
-        // --- DATABASE NOMI E VIDEO ---
+        // CONFIGURAZIONE
         const databaseRegali = {
             "marco": "video/auguri_marco.mp4",
             "giulia": "video/auguri_giulia.mp4",
             "mamma": "video/auguri_mamma.mp4",
-            // Aggiungi altri nomi qui...
         };
         
         const videoGenerico = "video/auguri_generici.mp4";
 
-        // --- FUNZIONI ---
+        // LOGICA
         function apriBusta() {
             document.getElementById('overlay-busta').style.display = 'flex';
         }
@@ -187,14 +225,12 @@
             
             if (nomeInput === "") return;
 
-            // Logica di selezione video
             if (databaseRegali[nomeInput]) {
                 player.src = databaseRegali[nomeInput];
             } else {
                 player.src = videoGenerico;
             }
 
-            // Cambio schermata
             document.getElementById('overlay-busta').style.display = 'none';
             document.getElementById('video-container').style.display = 'flex';
             player.play();
