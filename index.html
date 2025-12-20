@@ -4,174 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auguri di Natale!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- STILE CARTOON --- */
+        /* --- STILE GENERALE --- */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
-            font-family: 'Fredoka', sans-serif; /* Font giocoso */
+            font-family: 'Fredoka', sans-serif;
         }
 
         #scena {
             position: relative;
             width: 100%;
             height: 100vh;
-            /* IMPORTANTE: Qui c'è un'immagine provvisoria stile illustrazione.
-               Quando hai la tua immagine, salvala nella cartella e scrivi: url('sfondo.jpg'); 
-            */
-            background-image: url('https://img.freepik.com/free-vector/christmas-fireplace-scene-interior_107791-1507.jpg?w=1380&t=st=1703060000~exp=1703060600~hmac=abc'); 
+            /* IMPORTANTE: Assicurati che la tua immagine si chiami 'sfondo.png' */
+            background-image: url('sfondo.png'); 
             background-size: cover;
             background-position: center;
         }
 
-        /* --- L'ALBERO (Area Cliccabile) --- */
+        /* --- I REGALI (Area Cliccabile a SINISTRA) --- */
         #area-regali {
             position: absolute;
-            /* Adatta questi valori alla TUA immagine */
-            bottom: 10%;       
-            right: 15%;     
-            width: 20%;     
-            height: 40%;
+            /* Coordinate per i regali a sinistra nell'immagine che hai mandato */
+            bottom: 5%;       
+            left: 2%;     
+            width: 25%;     
+            height: 45%;
             cursor: pointer;
             
-            /* Bordo tratteggiato per aiutarti a posizionarlo (poi toglilo!) */
-            border: 3px dashed #fff; 
-            border-radius: 20px;
+            /* Bordo tratteggiato giallo per vederlo (poi mettilo "none") */
+            border: 3px dashed rgba(255, 255, 0, 0.6); 
+            border-radius: 10px;
             
-            /* Animazione "Respiro" per attirare l'attenzione */
-            animation: respiro 2s infinite ease-in-out;
+            /* Animazione "Saltello" */
+            animation: saltello 3s infinite ease-in-out;
         }
         
-        /* Una manina che appare quando passi sopra col mouse */
         #area-regali:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
         }
 
-        @keyframes respiro {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        @keyframes saltello {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Testo fluttuante sopra l'albero */
+        /* Fumetto "APRIMI" */
         .fumetto {
             position: absolute;
-            top: -60px;
+            top: -50px;
             left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            color: #d63031;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
+            transform: translateX(-50%) rotate(-5deg);
+            background: #ff4757;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-family: 'Luckiest Guy', cursive; /* Font cicciotto */
+            font-size: 24px;
+            letter-spacing: 1px;
+            box-shadow: 4px 4px 0 #2f3542;
             white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            pointer-events: none;
         }
-        /* Triangolino del fumetto */
+        
         .fumetto::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
             border-width: 10px 10px 0;
             border-style: solid;
-            border-color: white transparent transparent transparent;
+            border-color: #ff4757 transparent transparent transparent;
         }
 
-        /* --- POPUP (Stile Giocoso) --- */
+        /* --- POPUP (Stile Legno e Calore) --- */
         #overlay-busta, #video-container {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(45, 52, 54, 0.9); /* Sfondo scuro semi-trasparente */
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
             z-index: 100;
+            backdrop-filter: blur(8px);
         }
 
         .busta-box {
-            background: #ffeaa7; /* Giallo crema */
+            background: #fff5e6; /* Crema caldo */
             padding: 40px;
-            border-radius: 25px; /* Angoli molto rotondi */
+            border-radius: 20px;
             text-align: center;
-            border: 6px solid #fab1a0; /* Bordo color salmone */
-            box-shadow: 0 10px 0 #e17055; /* Effetto 3D cartoon */
-            max-width: 400px;
+            /* Bordo stile legno scuro */
+            border: 8px solid #8b4513; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 450px;
             width: 90%;
-            animation: popIn 0.3s ease-out;
+            position: relative;
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* Decorazione natalizia sopra il box */
+        .busta-box::before {
+            content: '🎄';
+            font-size: 50px;
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         h2 { 
-            color: #d63031; 
-            font-size: 28px;
-            margin-bottom: 10px;
+            color: #c0392b; 
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 35px;
+            margin-top: 20px;
+            text-shadow: 2px 2px 0 #ffeaa7;
         }
 
         input {
-            width: 80%;
+            width: 70%;
             padding: 15px;
-            font-size: 20px;
+            font-size: 22px;
             margin: 20px 0;
-            border: 3px solid #fab1a0;
-            border-radius: 15px;
+            border: 3px solid #e1b12c;
+            border-radius: 10px;
             text-align: center;
             font-family: 'Fredoka', sans-serif;
-            outline: none;
-            color: #636e72;
+            background: #fff;
+            color: #2d3436;
         }
         
-        input:focus { border-color: #d63031; }
+        input:focus { 
+            outline: none;
+            border-color: #c0392b;
+            box-shadow: 0 0 15px rgba(192, 57, 43, 0.3);
+        }
 
         button {
             padding: 15px 40px;
-            font-size: 22px;
-            font-family: 'Fredoka', sans-serif;
-            background: #00b894; /* Verde menta acceso */
+            font-size: 24px;
+            font-family: 'Luckiest Guy', cursive;
+            background: #27ae60; /* Verde natale */
             color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 6px 0 #008f72; /* Effetto 3D bottone */
-            transition: transform 0.1s, box-shadow 0.1s;
+            border-bottom: 5px solid #1e8449; /* Effetto 3D */
+            transition: all 0.1s;
         }
 
         button:active {
-            transform: translateY(6px); /* Schiaccia il bottone */
-            box-shadow: 0 0 0 #008f72;
+            transform: translateY(4px);
+            border-bottom: 1px solid #1e8449;
         }
 
         /* --- VIDEO PLAYER --- */
         video {
             width: 90%;
-            max-width: 800px;
-            border-radius: 20px;
-            border: 5px solid white;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 4px solid #fff;
         }
 
         .close-btn {
             position: absolute;
             top: 20px; right: 20px;
-            background: #d63031;
+            background: rgba(255,255,255,0.2);
             color: white;
-            width: 50px; height: 50px;
+            width: 40px; height: 40px;
             border-radius: 50%;
-            border: none;
+            border: 2px solid white;
             font-weight: bold;
-            font-size: 20px;
             cursor: pointer;
-            box-shadow: 0 4px 0 #a11b1b;
         }
     </style>
 </head>
@@ -179,19 +189,19 @@
 
     <div id="scena">
         <div id="area-regali" onclick="apriBusta()">
-            <div class="fumetto">Cliccami! 🎄</div>
+            <div class="fumetto">APRIMI!</div>
         </div>
     </div>
 
     <div id="overlay-busta">
         <div class="busta-box">
-            <h2>Ho un regalo per te!</h2>
-            <p style="color:#636e72; font-size:18px;">Dimmi, come ti chiami?</p>
-            <input type="text" id="nomeInput" placeholder="Scrivi qui il tuo nome...">
+            <h2>A chi è destinato?</h2>
+            <p style="color:#8b4513; font-size:18px;">Scrivi il nome sulla busta:</p>
+            <input type="text" id="nomeInput" placeholder="Nome...">
             <br>
-            <button onclick="controllaNome()">APRI ORA</button>
-            <p id="messaggio-errore" style="color:#d63031; display:none; margin-top:15px; font-weight:bold;">Mmh, non trovo questo nome!</p>
-            <p style="font-size:14px; color:#b2bec3; margin-top:20px; cursor:pointer" onclick="chiudiBusta()">Torna indietro</p>
+            <button onclick="controllaNome()">SCARTA</button>
+            <p id="messaggio-errore" style="color:#c0392b; display:none; margin-top:15px; font-weight:bold;">Mmh, non trovo il regalo!</p>
+            <p style="font-size:14px; color:#a4b0be; margin-top:20px; cursor:pointer; text-decoration:underline;" onclick="chiudiBusta()">Torna alla baita</p>
         </div>
     </div>
 
@@ -213,6 +223,7 @@
         // LOGICA
         function apriBusta() {
             document.getElementById('overlay-busta').style.display = 'flex';
+            document.getElementById('nomeInput').focus();
         }
 
         function chiudiBusta() {
@@ -235,6 +246,13 @@
             document.getElementById('video-container').style.display = 'flex';
             player.play();
         }
+        
+        // Permette di premere INVIO invece di cliccare il bottone
+        document.getElementById("nomeInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                controllaNome();
+            }
+        });
     </script>
 </body>
 </html>
