@@ -33,7 +33,6 @@
             font-family: 'Mountains of Christmas', cursive;
             font-size: 3.5rem; color: #ffda79; 
             text-shadow: 0 0 10px rgba(255, 218, 121, 0.3), 2px 2px 0px #1a0202;
-            /* MODIFICA 1: Aumentato margine inferiore per alzare la scritta */
             margin-bottom: 80px; 
             z-index: 100; text-align: center;
             animation: luccichio 3s infinite alternate; position: relative;
@@ -43,7 +42,7 @@
         
         .neve {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC4zKSIvPjwvc3ZnPg==');
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC43KSIvPjwvc3ZnPg==');
             animation: cadutaNeve 25s linear infinite; z-index: 1;
         }
         @keyframes cadutaNeve { to { background-position: 0 500px; } }
@@ -51,12 +50,10 @@
         /* --- BUSTA --- */
         .wrapper-busta { 
             position: relative; width: 300px; height: 210px; 
-            /* MODIFICA 1: Abbassata leggermente la posizione iniziale */
             cursor: pointer; z-index: 10; transform: translateY(30px); 
             transition: transform 0.3s;
         }
         .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
-        /* MODIFICA 1: Aggiornata animazione per la nuova posizione */
         @keyframes galleggia { 0%, 100% { transform: translateY(30px) rotate(0deg); } 50% { transform: translateY(20px) rotate(1deg); } }
         
         .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -76,7 +73,7 @@
         button { background: #b30000; color: #fff; border: none; padding: 8px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         button:hover { background: #d00000; transform: scale(1.05); }
 
-        /* --- OVERLAY GENERALE --- */
+        /* --- OVERLAY --- */
         #overlay-generale {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
@@ -84,33 +81,55 @@
             padding: 10px; opacity: 0; transition: opacity 0.4s ease;
         }
 
-        /* --- MODIFICA 2: NUOVA VISTA PACCO REGALO --- */
+        /* VISTA PACCO */
         #vista-pacco {
-            display: flex; flex-direction: column; align-items: center; gap: 30px;
+            display: flex; flex-direction: column; align-items: center; gap: 40px;
             animation: popIn 0.5s ease-out;
+            text-align: center;
         }
+        
+        .link-pacco-emoji { text-decoration: none; display: block; }
+        
         .pacco-emoji {
-            font-size: 8rem;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            font-size: 9rem;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
             animation: vibraPacco 2s infinite;
             cursor: pointer;
+            transition: transform 0.2s;
         }
+        .pacco-emoji:active { transform: scale(0.9); }
+
         @keyframes vibraPacco { 
             0%, 100% { transform: rotate(0deg) scale(1); } 
             25% { transform: rotate(5deg) scale(1.1); } 
             75% { transform: rotate(-5deg) scale(1.1); } 
         }
 
-        /* --- VISTA FOTO FINALE --- */
+        .btn-pacco { 
+            background: #d4af37; color: #581212; 
+            font-size: 1.3rem; 
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); 
+            border: none; cursor: pointer; padding: 15px 40px; border-radius: 50px;
+            font-family: 'Playfair Display', serif; font-weight: bold;
+            text-decoration: none; display: inline-block;
+        }
+        .btn-pacco:hover { transform: scale(1.05); background: #f1c40f; }
+
+        /* VISTA FOTO */
         #vista-foto {
-            display: none; /* Nascosta all'inizio */
+            display: none; 
             flex-direction: column; align-items: center; width: 100%;
             animation: popIn 0.5s ease-out;
         }
         
         #immagine-cartolina { 
-            width: auto; height: auto; max-width: 100vw; max-height: 75vh; 
-            object-fit: contain; border: 5px solid white;
+            /* Regola chiave: adatta l'immagine allo schermo SENZA tagliarla o forzarla */
+            width: auto; 
+            height: auto; 
+            max-width: 100vw; 
+            max-height: 70vh; 
+            object-fit: contain; 
+            border: 5px solid white;
         }
 
         .bottoni-container {
@@ -126,8 +145,7 @@
 
         .btn-chiudi { background: white; color: #990000; margin-bottom: 20px; }
         .btn-scarica { background: #27ae60; color: white; }
-        .btn-pacco { background: #d4af37; color: #581212; font-size: 1.2rem; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-        
+
         .istruzioni-mobile {
             color: #ddd; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
@@ -161,12 +179,15 @@
     <div id="overlay-generale">
         
         <div id="vista-pacco">
-            <div class="pacco-emoji" onclick="apriPaccoFinal()">🎁</div>
-            <button class="btn-azione btn-pacco" id="btn-apri-pacco" onclick="apriPaccoFinal()">APRI PACCO</button>
+            <a id="link-pacco-img" class="link-pacco-emoji" href="#" target="_blank">
+                <div class="pacco-emoji">🎁</div>
+            </a>
+            <a id="btn-apri-pacco" class="btn-pacco" href="#" target="_blank">APRI PACCO</a>
+            <button onclick="location.reload()" style="background:transparent; border:1px solid #777; color:#ccc; padding:8px 20px; border-radius:20px; margin-top:20px; cursor:pointer;">X</button>
         </div>
 
         <div id="vista-foto">
-            <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
+            <img id="immagine-cartolina" src="" alt="Caricamento...">
             
             <div class="bottoni-container">
                 <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
@@ -184,7 +205,7 @@
                 domanda: "Per chi è la cartolina?",
                 placeholder: "Scrivi il nome...",
                 apri: "Apri",
-                apriPacco: "APRI PACCO", // Nuova traduzione
+                apriPacco: "APRI PACCO",
                 originale: "APRI ORIGINALE",
                 istruzioni: "(Tieni premuto sulla foto per salvare)",
                 chiudi: "CHIUDI X"
@@ -194,7 +215,7 @@
                 domanda: "Pre koho je pohľadnica?",
                 placeholder: "Napíš meno...",
                 apri: "Otvoriť",
-                apriPacco: "OTVORIŤ DARČEK", // Nuova traduzione
+                apriPacco: "OTVORIŤ DARČEK",
                 originale: "OTVORIŤ ORIGINÁL",
                 istruzioni: "(Podržaním prsta uložíš)",
                 chiudi: "ZAVRIEŤ X"
@@ -206,7 +227,7 @@
             document.getElementById('domanda-testo').innerText = traduzioni[lingua].domanda;
             document.getElementById('nomeInput').placeholder = traduzioni[lingua].placeholder;
             document.getElementById('btn-apri').innerText = traduzioni[lingua].apri;
-            document.getElementById('btn-apri-pacco').innerText = traduzioni[lingua].apriPacco; // Aggiorna bottone pacco
+            document.getElementById('btn-apri-pacco').innerText = traduzioni[lingua].apriPacco;
             document.getElementById('link-download').innerText = traduzioni[lingua].originale;
             document.getElementById('istruzioni-testo').innerText = traduzioni[lingua].istruzioni;
             document.getElementById('btn-chiudi').innerText = traduzioni[lingua].chiudi;
@@ -217,33 +238,20 @@
         }
 
         // --- DATABASE ---
-        // RICORDA: USA I LINK "NON RIDIMENSIONATI" DI POSTIMAGES!
+        // ATTENZIONE: Qui devi mettere i link che finiscono con .png o .jpg!
+        // Esempio corretto: "https://i.ibb.co/wzn.../immagine.png"
+        // Esempio SBAGLIATO: "https://ibb.co/NgkX4Lz8" (questo è il link della pagina web, non della foto)
         const databaseCartoline = {
-            "blas": "https://ibb.co/NgkX4Lz8",
-            "ian":"https://ibb.co/0Vrt8DqG",
-            "john":"https://ibb.co/xbCNs0v",
-            "matteo":"https://ibb.co/zhQcT9Rw",
-            "mico":"https://ibb.co/SDdwx7Z0",
-            "nela":"https://ibb.co/GQWPb5V8",
-            "petronela":"https://ibb.co/6c23vFyj",
-            "nonno orlando":"https://ibb.co/RkHQ9SMt",
-            "orlando":"https://ibb.co/RkHQ9SMt",
-            "vanila":"https://ibb.co/WNGmtr3G",
-            "dalida":"https://ibb.co/Cp6cXd2y",
-            "zio alessio":"https://ibb.co/dFQ79Cb",
-            "alessio":"https://ibb.co/dFQ79Cb",
-            "zia ale":"https://ibb.co/Kc0ZnVbK",
-            "ale":"https://ibb.co/Kc0ZnVbK",
-            "alessandra":"https://ibb.co/Kc0ZnVbK",
-            "zio dado":"https://ibb.co/Kc0ZnVbK",
-            "davide":"https://ibb.co/Kc0ZnVbK",
-            "jacopo":"https://ibb.co/JjwKnRgX"
+            "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
+            // ... continua a correggere gli altri link qui sotto ...
+            "john":"https://i.postimg.cc/SX00xQjw/Cartolina-john.png", 
+            // etc...
         };
         
         const cartolinaDefault = "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png"; 
 
         let isAperta = false;
-        // Variabile globale per ricordare il link tra i due passaggi
         let linkCorrente = ""; 
 
         function apriBusta() {
@@ -257,38 +265,39 @@
             }
         }
 
-        // MODIFICA 2: Primo step - Trova il link e mostra il pacco
         function apriLettera() {
             const nome = document.getElementById('nomeInput').value.trim().toLowerCase();
             if(nome === "") return;
 
-            // 1. Trova il link giusto
             if (databaseCartoline[nome]) {
                 linkCorrente = databaseCartoline[nome];
             } else {
                 linkCorrente = cartolinaDefault; 
             }
 
-            // 2. Prepara le viste: Mostra Pacco, Nascondi Foto
+            // Imposta subito il link sui pulsanti del pacco
+            document.getElementById('btn-apri-pacco').href = linkCorrente;
+            document.getElementById('link-pacco-img').href = linkCorrente;
+            
+            // Imposta anche l'immagine per la vista finale (se uno torna indietro)
+            document.getElementById('immagine-cartolina').src = linkCorrente;
+            document.getElementById('link-download').href = linkCorrente;
+
+            // Mostra Pacco
             document.getElementById('vista-pacco').style.display = 'flex';
             document.getElementById('vista-foto').style.display = 'none';
 
-            // 3. Mostra l'overlay generale
             const overlay = document.getElementById('overlay-generale');
             overlay.style.display = 'flex';
             setTimeout(() => { overlay.style.opacity = '1'; }, 50);
         }
 
-        // MODIFICA 2: Secondo step - Nasconde pacco e mostra foto
+        // Questa funzione ora serve solo se vogliamo mostrare la foto dentro il sito
+        // Ma col pacco cliccabile che apre nuova scheda, è un extra.
         function apriPaccoFinal() {
-            // 1. Nascondi il pacco
+            // Se vuoi che il pacco apra la foto DENTRO il sito, usa questo codice.
+            // Se vuoi che apra SOLO la nuova scheda, non serve cambiare nulla nel CSS.
             document.getElementById('vista-pacco').style.display = 'none';
-
-            // 2. Imposta l'immagine e il link usando la variabile globale
-            document.getElementById('immagine-cartolina').src = linkCorrente;
-            document.getElementById('link-download').href = linkCorrente;
-
-            // 3. Mostra la foto
             document.getElementById('vista-foto').style.display = 'flex';
         }
 
