@@ -3,38 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Auguri Speciali</title>
+    <title>Auguri Speciali / Veselé Vianoce</title>
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- SFONDO --- */
+        /* --- SFONDO ELEGANTE (Rosso Vino - Ripristinato) --- */
         body {
             margin: 0; padding: 0; height: 100vh; width: 100vw;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(40, 10, 10, 0.6)), 
-                        url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover; background-position: center; background-repeat: no-repeat;
+            background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
             display: flex; flex-direction: column; 
             justify-content: center; align-items: center; overflow: hidden;
             font-family: 'Playfair Display', serif;
         }
 
+        /* --- SELETTORE LINGUA --- */
+        .lingua-switch {
+            position: absolute; top: 20px; right: 20px; z-index: 150;
+            display: flex; gap: 10px;
+        }
+        .btn-lang {
+            font-size: 2rem; cursor: pointer; background: none; border: none;
+            transition: transform 0.2s; filter: grayscale(0.5); opacity: 0.7;
+        }
+        .btn-lang.attivo { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
+        .btn-lang:hover { opacity: 1; transform: scale(1.1); }
+
+        /* --- TITOLI E TESTI --- */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
-            font-size: 4rem; color: #ffffff; 
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 40px; z-index: 100; text-align: center;
-            animation: galleggiaTesto 3s infinite ease-in-out; position: relative;
-            padding: 0 20px; line-height: 1.1;
+            font-size: 4rem; color: #ffda79; 
+            text-shadow: 0 0 10px rgba(255, 218, 121, 0.3), 2px 2px 0px #1a0202;
+            margin-bottom: 50px; z-index: 100; text-align: center;
+            animation: luccichio 3s infinite alternate; position: relative;
+            padding: 0 10px; line-height: 1.1;
         }
-        @keyframes galleggiaTesto { 
-            0%, 100% { transform: translateY(0); } 
-            50% { transform: translateY(-10px); } 
-        }
+        @keyframes luccichio { from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); } to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); } }
         
         .neve {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC42KSIvPjwvc3ZnPg==');
-            animation: cadutaNeve 20s linear infinite; z-index: 1;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LDI1NSwgMC4zKSIvPjwvc3ZnPg==');
+            animation: cadutaNeve 25s linear infinite; z-index: 1;
         }
         @keyframes cadutaNeve { to { background-position: 0 500px; } }
 
@@ -44,19 +52,15 @@
             cursor: pointer; z-index: 10; transform: translateY(20px); 
             transition: transform 0.3s;
         }
-        .wrapper-busta:not(.aperta) { animation: vibra 4s ease-in-out infinite; }
-        @keyframes vibra { 
-            0%, 100% { transform: rotate(0deg); } 
-            25% { transform: rotate(1deg); } 
-            75% { transform: rotate(-1deg); } 
-        }
+        .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
+        @keyframes galleggia { 0%, 100% { transform: translateY(20px) rotate(0deg); } 50% { transform: translateY(10px) rotate(1deg); } }
         
-        .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #b30000, #800000); border-radius: 0 0 10px 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .lettera { position: absolute; left: 15px; bottom: 10px; width: 290px; height: 180px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; border: 2px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
-        .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #cc0000; z-index: 20; border-radius: 0 0 0 10px; }
-        .flap-lati.destra { left: auto; right: 0; border-width: 110px 160px 110px 0; border-color: transparent #cc0000 transparent transparent; border-radius: 0 0 10px 0; }
-        .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 160px 120px 160px; border-color: transparent transparent #e60000 transparent; z-index: 21; border-radius: 0 0 10px 10px; filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1)); }
-        .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 130px 160px 0 160px; border-color: #ff1a1a transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
+        .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #b30000; z-index: 20; border-radius: 0 0 0 10px; }
+        .flap-lati.destra { left: auto; right: 0; border-width: 110px 160px 110px 0; border-color: transparent #b30000 transparent transparent; border-radius: 0 0 10px 0; }
+        .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 160px 120px 160px; border-color: transparent transparent #cc0000 transparent; z-index: 21; border-radius: 0 0 10px 10px; filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1)); }
+        .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 130px 160px 0 160px; border-color: #e60000 transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
         .sigillo { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); border-radius: 50%; z-index: 40; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; font-size: 24px; color: #581212; transition: opacity 0.3s; cursor: pointer; }
         
         .wrapper-busta.aperta .flap-sopra { transform: rotateX(180deg); z-index: 1; }
@@ -65,8 +69,9 @@
 
         .testo-lettera { color: #8b0000; font-size: 1.5rem; margin: 0 0 15px 0; line-height: 1.2; text-align: center; }
         input { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1.1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
-        button { background: #cc0000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
-        
+        button { background: #b30000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
+        button:hover { background: #d00000; transform: scale(1.05); }
+
         /* --- VISUALIZZATORE RESPONSIVE --- */
         #overlay-cartolina {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -77,7 +82,7 @@
         
         #immagine-cartolina { 
             width: auto; height: auto;
-            max-width: 95%; max-height: 70vh; /* Lascia spazio ai bottoni su mobile */
+            max-width: 95%; max-height: 70vh; 
             object-fit: contain;
             border: 8px solid #ffffff; border-radius: 8px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.9);
@@ -91,7 +96,7 @@
         .btn-azione { 
             border: none; cursor: pointer; padding: 12px 30px; border-radius: 50px;
             font-family: 'Playfair Display', serif; font-weight: bold; font-size: 1rem;
-            text-decoration: none; text-align: center; width: 200px;
+            text-decoration: none; text-align: center; width: 220px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
@@ -102,31 +107,31 @@
             color: #bbb; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
 
-        /* --- ADATTAMENTI PER CELLULARE (Media Queries) --- */
+        /* MEDIA QUERY MOBILE */
         @media (max-width: 600px) {
             .titolo-auguri { font-size: 3rem; margin-bottom: 30px; }
-            .wrapper-busta { transform: scale(0.85) translateY(20px); } /* Busta più piccola */
-            
-            /* Su mobile le immagini occupano più altezza */
+            .wrapper-busta { transform: scale(0.85) translateY(20px); }
             #immagine-cartolina { max-height: 60vh; max-width: 98%; border-width: 5px; }
-            
-            /* Bottoni più facili da toccare */
-            .bottoni-container { flex-direction: column; gap: 10px; }
-            .btn-azione { width: 80%; padding: 15px; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="neve"></div>
-    <div class="titolo-auguri">Buon Natale</div>
+    
+    <div class="lingua-switch">
+        <button class="btn-lang attivo" id="btn-it" onclick="cambiaLingua('it')">🇮🇹</button>
+        <button class="btn-lang" id="btn-sk" onclick="cambiaLingua('sk')">🇸🇰</button>
+    </div>
+
+    <div class="titolo-auguri" id="titolo-testo">Buon Natale</div>
 
     <div class="wrapper-busta" id="busta" onclick="apriBusta()">
         <div class="busta-body"></div>
         <div class="lettera" onclick="event.stopPropagation()">
-            <h2 class="testo-lettera">Per chi è la cartolina?</h2>
-            <input type="text" id="nomeInput" placeholder="Nome...">
-            <button onclick="mostraCartolina()">Apri</button>
+            <h2 class="testo-lettera" id="domanda-testo">Per chi è la cartolina?</h2>
+            <input type="text" id="nomeInput" placeholder="Scrivi il nome...">
+            <button id="btn-apri" onclick="mostraCartolina()">Apri</button>
         </div>
         <div class="flap-lati"></div><div class="flap-lati destra"></div><div class="flap-sotto"></div>
         <div class="flap-sopra"></div><div class="sigillo">🎄</div>
@@ -137,14 +142,53 @@
         
         <div class="bottoni-container">
             <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
-            <div class="istruzioni-mobile">(Tieni premuto sulla foto per salvare)</div>
+            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
             
-            <button class="btn-azione btn-chiudi" onclick="location.reload()">CHIUDI X</button>
+            <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
         </div>
     </div>
 
     <script>
-        // --- DATABASE ---
+        // --- DIZIONARIO LINGUE ---
+        const traduzioni = {
+            it: {
+                titolo: "Buon Natale",
+                domanda: "Per chi è la cartolina?",
+                placeholder: "Scrivi il nome...",
+                apri: "Apri",
+                originale: "APRI ORIGINALE",
+                istruzioni: "(Tieni premuto per salvare)",
+                chiudi: "CHIUDI X"
+            },
+            sk: {
+                titolo: "Veselé Vianoce",
+                domanda: "Pre koho je pohľadnica?",
+                placeholder: "Napíš meno...",
+                apri: "Otvoriť",
+                originale: "OTVORIŤ ORIGINÁL",
+                istruzioni: "(Podržaním prsta uložíš)",
+                chiudi: "ZAVRIEŤ X"
+            }
+        };
+
+        // --- FUNZIONE CAMBIO LINGUA ---
+        function cambiaLingua(lingua) {
+            // Aggiorna testi
+            document.getElementById('titolo-testo').innerText = traduzioni[lingua].titolo;
+            document.getElementById('domanda-testo').innerText = traduzioni[lingua].domanda;
+            document.getElementById('nomeInput').placeholder = traduzioni[lingua].placeholder;
+            document.getElementById('btn-apri').innerText = traduzioni[lingua].apri;
+            document.getElementById('link-download').innerText = traduzioni[lingua].originale;
+            document.getElementById('istruzioni-testo').innerText = traduzioni[lingua].istruzioni;
+            document.getElementById('btn-chiudi').innerText = traduzioni[lingua].chiudi;
+
+            // Aggiorna stile bandiere
+            document.getElementById('btn-it').classList.remove('attivo');
+            document.getElementById('btn-sk').classList.remove('attivo');
+            document.getElementById('btn-' + lingua).classList.add('attivo');
+        }
+
+        // --- DATABASE CARTOLINE ---
         const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
@@ -174,7 +218,6 @@
             if (!isAperta) {
                 document.getElementById('busta').classList.add('aperta');
                 setTimeout(() => {
-                    // Fix per mobile: scrolla leggermente per centrare l'input se la tastiera copre tutto
                     document.getElementById('nomeInput').scrollIntoView({behavior: "smooth", block: "center"});
                     document.getElementById('nomeInput').focus();
                 }, 800);
