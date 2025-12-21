@@ -7,9 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- SFONDO ELEGANTE (Rosso Vino) --- */
+        /* --- SFONDO --- */
         body {
-            margin: 0; padding: 0; height: 100vh; width: 100vw;
+            margin: 0; padding: 0; 
+            /* Altezza dinamica per evitare problemi con la barra del browser su mobile */
+            min-height: 100vh; 
+            width: 100%;
             background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
             display: flex; flex-direction: column; 
             justify-content: center; align-items: center; overflow: hidden;
@@ -30,11 +33,11 @@
         /* --- TESTI --- */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
-            font-size: 4rem; color: #ffda79; 
+            font-size: 3.5rem; color: #ffda79; 
             text-shadow: 0 0 10px rgba(255, 218, 121, 0.3), 2px 2px 0px #1a0202;
-            margin-bottom: 50px; z-index: 100; text-align: center;
+            margin-bottom: 40px; z-index: 100; text-align: center;
             animation: luccichio 3s infinite alternate; position: relative;
-            padding: 0 10px; line-height: 1.1;
+            padding: 0 15px; line-height: 1.1;
         }
         @keyframes luccichio { from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); } to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); } }
         
@@ -47,52 +50,51 @@
 
         /* --- BUSTA --- */
         .wrapper-busta { 
-            position: relative; width: 320px; height: 220px; 
-            cursor: pointer; z-index: 10; transform: translateY(20px); 
+            position: relative; width: 300px; height: 210px; 
+            cursor: pointer; z-index: 10; transform: translateY(0); 
             transition: transform 0.3s;
         }
         .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
-        @keyframes galleggia { 0%, 100% { transform: translateY(20px) rotate(0deg); } 50% { transform: translateY(10px) rotate(1deg); } }
+        @keyframes galleggia { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
         
-        .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-        .lettera { position: absolute; left: 15px; bottom: 10px; width: 290px; height: 180px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; border: 2px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
-        .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #b30000; z-index: 20; border-radius: 0 0 0 10px; }
-        .flap-lati.destra { left: auto; right: 0; border-width: 110px 160px 110px 0; border-color: transparent #b30000 transparent transparent; border-radius: 0 0 10px 0; }
-        .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 160px 120px 160px; border-color: transparent transparent #cc0000 transparent; z-index: 21; border-radius: 0 0 10px 10px; filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1)); }
-        .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 130px 160px 0 160px; border-color: #e60000 transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
-        .sigillo { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); border-radius: 50%; z-index: 40; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; font-size: 24px; color: #581212; transition: opacity 0.3s; cursor: pointer; }
+        .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .lettera { position: absolute; left: 15px; bottom: 10px; width: 270px; height: 170px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; border: 2px solid #d4af37; }
+        .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 105px 0 105px 150px; border-color: transparent transparent transparent #b30000; z-index: 20; border-radius: 0 0 0 10px; }
+        .flap-lati.destra { left: auto; right: 0; border-width: 105px 150px 105px 0; border-color: transparent #b30000 transparent transparent; border-radius: 0 0 10px 0; }
+        .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 150px 110px 150px; border-color: transparent transparent #cc0000 transparent; z-index: 21; border-radius: 0 0 10px 10px; }
+        .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 120px 150px 0 150px; border-color: #e60000 transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+        .sigillo { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); border-radius: 50%; z-index: 40; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; font-size: 20px; color: #581212; transition: opacity 0.3s; cursor: pointer; }
         
         .wrapper-busta.aperta .flap-sopra { transform: rotateX(180deg); z-index: 1; }
         .wrapper-busta.aperta .sigillo { opacity: 0; pointer-events: none; }
         .wrapper-busta.aperta .lettera { bottom: 100px; z-index: 25; transform: scale(1.05); }
 
-        .testo-lettera { color: #8b0000; font-size: 1.5rem; margin: 0 0 15px 0; line-height: 1.2; text-align: center; }
-        input { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1.1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
-        button { background: #b30000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
+        .testo-lettera { color: #8b0000; font-size: 1.3rem; margin: 0 0 10px 0; line-height: 1.2; text-align: center; }
+        input { width: 90%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
+        button { background: #b30000; color: #fff; border: none; padding: 8px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         button:hover { background: #d00000; transform: scale(1.05); }
 
-        /* --- VISUALIZZATORE IMMAGINE --- */
+        /* --- VISUALIZZATORE (Semplificato al massimo per evitare bug grafici) --- */
         #overlay-cartolina {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
             flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.4s ease;
-            padding: 10px; box-sizing: border-box;
+            padding: 0;
         }
         
         #immagine-cartolina { 
             /* REGOLE DI VISUALIZZAZIONE NORMALE */
-            width: auto; height: auto;
-            max-width: 95%; max-height: 70vh; /* Non uscire dallo schermo */
+            width: auto; 
+            height: auto;
+            
+            /* Limiti per non uscire dallo schermo, ma senza forzare ingrandimenti */
+            max-width: 100vw; 
+            max-height: 75vh; 
+            
             object-fit: contain;
             
-            border: 10px solid #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            
-            /* Fondamentale per salvare su mobile */
-            pointer-events: auto; 
-            user-select: none; -webkit-user-select: none;
+            /* Togliamo le ombre complesse che sui cellulari vecchi fanno sfocatura */
+            border: 5px solid white;
         }
 
         .bottoni-container {
@@ -100,25 +102,20 @@
         }
 
         .btn-azione { 
-            border: none; cursor: pointer; padding: 12px 30px; border-radius: 50px;
+            border: none; cursor: pointer; padding: 15px 30px; border-radius: 50px;
             font-family: 'Playfair Display', serif; font-weight: bold; font-size: 1rem;
-            text-decoration: none; text-align: center; width: 220px;
+            text-decoration: none; text-align: center; width: 250px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: block;
         }
 
-        .btn-chiudi { background: white; color: #990000; }
+        .btn-chiudi { background: white; color: #990000; margin-bottom: 20px; }
         .btn-scarica { background: #27ae60; color: white; }
         
         .istruzioni-mobile {
             color: #ddd; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
 
-        /* MEDIA QUERY MOBILE */
-        @media (max-width: 600px) {
-            .titolo-auguri { font-size: 3rem; margin-bottom: 30px; }
-            .wrapper-busta { transform: scale(0.85) translateY(20px); }
-            #immagine-cartolina { max-width: 98%; border-width: 5px; }
-        }
     </style>
 </head>
 <body>
@@ -147,7 +144,7 @@
         <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
         
         <div class="bottoni-container">
-            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI PER SALVARE</a>
+            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
             <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
             
             <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
@@ -161,7 +158,7 @@
                 domanda: "Per chi è la cartolina?",
                 placeholder: "Scrivi il nome...",
                 apri: "Apri",
-                originale: "APRI PER SALVARE",
+                originale: "APRI ORIGINALE",
                 istruzioni: "(Tieni premuto sulla foto per salvare)",
                 chiudi: "CHIUDI X"
             },
@@ -170,7 +167,7 @@
                 domanda: "Pre koho je pohľadnica?",
                 placeholder: "Napíš meno...",
                 apri: "Otvoriť",
-                originale: "OTVORIŤ A ULOŽIŤ",
+                originale: "OTVORIŤ ORIGINÁL",
                 istruzioni: "(Podržaním prsta uložíš)",
                 chiudi: "ZAVRIEŤ X"
             }
@@ -190,8 +187,9 @@
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
-        // --- ATTENZIONE: MODIFICA I LINK QUI SOTTO! ---
-        // NON USARE [url] o [img]. Solo il link puro.
+        // --- DATABASE ---
+        // IMPORTANTE: Assicurati che questi link siano i "DIRECT LINK" da ImgBB o Postimages
+        // Devono finire con .png o .jpg e NON devono essere pagine web.
         const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
