@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- SFONDO ELEGANTE E RIPOSANTE (Rosso Vino sfumato) --- */
+        /* --- SFONDO --- */
         body {
             margin: 0; padding: 0; height: 100vh;
             background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
@@ -39,12 +39,10 @@
         
         .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .lettera { position: absolute; left: 15px; bottom: 10px; width: 290px; height: 180px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; border: 2px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
-        
         .flap-lati { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #b30000; z-index: 20; border-radius: 0 0 0 10px; }
         .flap-lati.destra { left: auto; right: 0; border-width: 110px 160px 110px 0; border-color: transparent #b30000 transparent transparent; border-radius: 0 0 10px 0; }
         .flap-sotto { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 0 160px 120px 160px; border-color: transparent transparent #cc0000 transparent; z-index: 21; border-radius: 0 0 10px 10px; filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.1)); }
         .flap-sopra { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 130px 160px 0 160px; border-color: #e60000 transparent transparent transparent; z-index: 30; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.2s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
-        
         .sigillo { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 45px; height: 45px; background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); border-radius: 50%; z-index: 40; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; font-size: 24px; color: #581212; transition: opacity 0.3s; cursor: pointer; }
         .wrapper-busta.aperta .flap-sopra { transform: rotateX(180deg); z-index: 1; }
         .wrapper-busta.aperta .sigillo { opacity: 0; pointer-events: none; }
@@ -54,12 +52,12 @@
         button { background: #b30000; color: #fff; border: none; padding: 8px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         button:hover { background: #d00000; transform: scale(1.05); }
 
-        /* --- VISUALIZZATORE FOTO NITIDA (Anti-Sfocatura) --- */
+        /* --- VISUALIZZATORE CON DOWNLOAD --- */
         #overlay-cartolina {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); /* Sfondo molto scuro */
+            background: rgba(0,0,0,0.95);
             z-index: 200; 
             flex-direction: column;
             justify-content: center;
@@ -70,48 +68,47 @@
         }
         
         #immagine-cartolina { 
-            /* REGOLE ANTI-SFOCATURA: */
-            /* 1. Reset delle dimensioni forzate */
-            width: auto;
-            height: auto;
-            
-            /* 2. Limiti massimi (per non uscire dallo schermo) */
-            max-width: 95%; 
-            max-height: 85vh; 
-            
-            /* 3. Mantiene le proporzioni originali */
+            /* Qui diciamo: mostra la foto GRANDE ma non sgranarla se è piccola */
+            width: auto; height: auto;
+            max-width: 100%; max-height: 75vh; 
             object-fit: contain;
             
-            /* CORNICE */
-            border: 12px solid #ffffff;
+            border: 10px solid #ffffff;
             border-radius: 8px;
-            
-            /* OMBRA PROFONDA */
-            box-shadow: 
-                0 20px 50px rgba(0,0,0,0.9), 
-                0 0 30px rgba(255, 215, 0, 0.4); /* Alone dorato */
-
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             transform: scale(0.8); 
             transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .btn-chiudi { 
-            position: absolute;
-            bottom: 25px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #990000;
+        /* Contenitore dei bottoni */
+        .bottoni-container {
+            margin-top: 25px;
+            display: flex;
+            gap: 20px; /* Spazio tra i bottoni */
+        }
+
+        .btn-azione { 
             border: none;
             cursor: pointer; 
-            padding: 10px 30px; 
+            padding: 12px 25px; 
             border-radius: 50px;
             font-family: 'Playfair Display', serif;
             font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 1rem;
+            text-decoration: none; /* Per il link di download */
+            display: inline-block;
             transition: all 0.2s;
-            z-index: 210;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .btn-chiudi:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 255, 255, 1); }
+
+        /* Bottone CHIUDI (Bianco) */
+        .btn-chiudi { background: white; color: #990000; }
+        .btn-chiudi:hover { transform: scale(1.05); background: #f0f0f0; }
+
+        /* Bottone SCARICA (Verde Natale) */
+        .btn-scarica { background: #27ae60; color: white; border: 2px solid #27ae60; }
+        .btn-scarica:hover { transform: scale(1.05); background: #219150; }
+
     </style>
 </head>
 <body>
@@ -132,7 +129,12 @@
 
     <div id="overlay-cartolina">
         <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
-        <button class="btn-chiudi" onclick="location.reload()">CHIUDI</button>
+        
+        <div class="bottoni-container">
+            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank" download>SCARICA ⬇️</a>
+            
+            <button class="btn-azione btn-chiudi" onclick="location.reload()">CHIUDI X</button>
+        </div>
     </div>
 
     <script>
@@ -177,14 +179,21 @@
             const nome = document.getElementById('nomeInput').value.trim().toLowerCase();
             const imgElement = document.getElementById('immagine-cartolina');
             const overlay = document.getElementById('overlay-cartolina');
+            const btnDownload = document.getElementById('link-download');
 
             if(nome === "") return;
 
+            let linkImmagine = "";
+
             if (databaseCartoline[nome]) {
-                imgElement.src = databaseCartoline[nome];
+                linkImmagine = databaseCartoline[nome];
             } else {
-                imgElement.src = cartolinaDefault; 
+                linkImmagine = cartolinaDefault; 
             }
+
+            // Imposta immagine e link per il download
+            imgElement.src = linkImmagine;
+            btnDownload.href = linkImmagine;
 
             overlay.style.display = 'flex';
             
