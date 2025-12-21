@@ -7,13 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- SFONDO ELEGANTE (Rosso Vino - Ripristinato) --- */
+        /* --- SFONDO --- */
         body {
             margin: 0; padding: 0; height: 100vh; width: 100vw;
             background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
             display: flex; flex-direction: column; 
             justify-content: center; align-items: center; overflow: hidden;
             font-family: 'Playfair Display', serif;
+            /* Fix per evitare sfarfallii su mobile */
+            -webkit-font-smoothing: antialiased;
         }
 
         /* --- SELETTORE LINGUA --- */
@@ -26,9 +28,8 @@
             transition: transform 0.2s; filter: grayscale(0.5); opacity: 0.7;
         }
         .btn-lang.attivo { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
-        .btn-lang:hover { opacity: 1; transform: scale(1.1); }
 
-        /* --- TITOLI E TESTI --- */
+        /* --- TESTI --- */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
             font-size: 4rem; color: #ffda79; 
@@ -51,6 +52,8 @@
             position: relative; width: 320px; height: 220px; 
             cursor: pointer; z-index: 10; transform: translateY(20px); 
             transition: transform 0.3s;
+            /* Forza rendering hardware per evitare sfocature */
+            transform: translateZ(0); 
         }
         .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
         @keyframes galleggia { 0%, 100% { transform: translateY(20px) rotate(0deg); } 50% { transform: translateY(10px) rotate(1deg); } }
@@ -70,23 +73,38 @@
         .testo-lettera { color: #8b0000; font-size: 1.5rem; margin: 0 0 15px 0; line-height: 1.2; text-align: center; }
         input { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1.1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
         button { background: #b30000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
-        button:hover { background: #d00000; transform: scale(1.05); }
-
-        /* --- VISUALIZZATORE RESPONSIVE --- */
+        
+        /* --- VISUALIZZATORE FIX NITIDEZZA --- */
         #overlay-cartolina {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
             flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.5s ease-in-out; padding: 10px; box-sizing: border-box;
+            opacity: 0; transition: opacity 0.3s ease; /* Transizione più veloce */
+            padding: 10px; box-sizing: border-box;
+            
+            /* Fix sfocatura mobile */
+            -webkit-backdrop-filter: none; 
+            backdrop-filter: none;
         }
         
         #immagine-cartolina { 
             width: auto; height: auto;
-            max-width: 95%; max-height: 70vh; 
+            max-width: 98%; max-height: 75vh; 
             object-fit: contain;
-            border: 8px solid #ffffff; border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
-            transform: scale(0.8); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* CORNICE FATTA CON BOX-SHADOW (Più nitida su mobile) */
+            background-color: white;
+            padding: 10px; /* Effetto cornice bianca */
+            border-radius: 4px;
+            box-shadow: 0 0 0 2px #d4af37, 0 20px 50px rgba(0,0,0,0.9);
+            
+            /* Rimosso transform:scale iniziale per evitare blur */
+            transform: none; 
+            
+            /* Fix rendering */
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .bottoni-container {
@@ -98,6 +116,8 @@
             font-family: 'Playfair Display', serif; font-weight: bold; font-size: 1rem;
             text-decoration: none; text-align: center; width: 220px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            /* Fix sfocatura testo bottoni */
+            transform: translateZ(0);
         }
 
         .btn-chiudi { background: white; color: #990000; }
@@ -107,11 +127,11 @@
             color: #bbb; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
 
-        /* MEDIA QUERY MOBILE */
         @media (max-width: 600px) {
             .titolo-auguri { font-size: 3rem; margin-bottom: 30px; }
             .wrapper-busta { transform: scale(0.85) translateY(20px); }
-            #immagine-cartolina { max-height: 60vh; max-width: 98%; border-width: 5px; }
+            /* Su mobile togliamo ogni ombra pesante che può causare lag/blur */
+            #immagine-cartolina { box-shadow: 0 0 0 5px white, 0 10px 30px rgba(0,0,0,0.8); padding: 0; }
         }
     </style>
 </head>
@@ -142,14 +162,12 @@
         
         <div class="bottoni-container">
             <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
-            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
-            
+            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto per salvare)</div>
             <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
         </div>
     </div>
 
     <script>
-        // --- DIZIONARIO LINGUE ---
         const traduzioni = {
             it: {
                 titolo: "Buon Natale",
@@ -171,9 +189,7 @@
             }
         };
 
-        // --- FUNZIONE CAMBIO LINGUA ---
         function cambiaLingua(lingua) {
-            // Aggiorna testi
             document.getElementById('titolo-testo').innerText = traduzioni[lingua].titolo;
             document.getElementById('domanda-testo').innerText = traduzioni[lingua].domanda;
             document.getElementById('nomeInput').placeholder = traduzioni[lingua].placeholder;
@@ -182,13 +198,11 @@
             document.getElementById('istruzioni-testo').innerText = traduzioni[lingua].istruzioni;
             document.getElementById('btn-chiudi').innerText = traduzioni[lingua].chiudi;
 
-            // Aggiorna stile bandiere
             document.getElementById('btn-it').classList.remove('attivo');
             document.getElementById('btn-sk').classList.remove('attivo');
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
-        // --- DATABASE CARTOLINE ---
         const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
@@ -246,8 +260,7 @@
             overlay.style.display = 'flex';
             setTimeout(() => {
                 overlay.style.opacity = '1';
-                imgElement.style.transform = 'scale(1)';
-            }, 50);
+            }, 10);
         }
 
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
