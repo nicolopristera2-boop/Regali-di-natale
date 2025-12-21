@@ -10,9 +10,7 @@
         /* --- SFONDO --- */
         body {
             margin: 0; padding: 0; 
-            /* Altezza dinamica per evitare problemi con la barra del browser su mobile */
-            min-height: 100vh; 
-            width: 100%;
+            min-height: 100vh; width: 100%;
             background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
             display: flex; flex-direction: column; 
             justify-content: center; align-items: center; overflow: hidden;
@@ -35,7 +33,9 @@
             font-family: 'Mountains of Christmas', cursive;
             font-size: 3.5rem; color: #ffda79; 
             text-shadow: 0 0 10px rgba(255, 218, 121, 0.3), 2px 2px 0px #1a0202;
-            margin-bottom: 40px; z-index: 100; text-align: center;
+            /* MODIFICA 1: Aumentato margine inferiore per alzare la scritta */
+            margin-bottom: 80px; 
+            z-index: 100; text-align: center;
             animation: luccichio 3s infinite alternate; position: relative;
             padding: 0 15px; line-height: 1.1;
         }
@@ -51,11 +51,13 @@
         /* --- BUSTA --- */
         .wrapper-busta { 
             position: relative; width: 300px; height: 210px; 
-            cursor: pointer; z-index: 10; transform: translateY(0); 
+            /* MODIFICA 1: Abbassata leggermente la posizione iniziale */
+            cursor: pointer; z-index: 10; transform: translateY(30px); 
             transition: transform 0.3s;
         }
         .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
-        @keyframes galleggia { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+        /* MODIFICA 1: Aggiornata animazione per la nuova posizione */
+        @keyframes galleggia { 0%, 100% { transform: translateY(30px) rotate(0deg); } 50% { transform: translateY(20px) rotate(1deg); } }
         
         .busta-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #800000, #a00000); border-radius: 0 0 10px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .lettera { position: absolute; left: 15px; bottom: 10px; width: 270px; height: 170px; background: #fffaf0; border-radius: 5px; z-index: 10; transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; border: 2px solid #d4af37; }
@@ -74,27 +76,41 @@
         button { background: #b30000; color: #fff; border: none; padding: 8px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         button:hover { background: #d00000; transform: scale(1.05); }
 
-        /* --- VISUALIZZATORE (Semplificato al massimo per evitare bug grafici) --- */
-        #overlay-cartolina {
+        /* --- OVERLAY GENERALE --- */
+        #overlay-generale {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
             flex-direction: column; justify-content: center; align-items: center;
-            padding: 0;
+            padding: 10px; opacity: 0; transition: opacity 0.4s ease;
+        }
+
+        /* --- MODIFICA 2: NUOVA VISTA PACCO REGALO --- */
+        #vista-pacco {
+            display: flex; flex-direction: column; align-items: center; gap: 30px;
+            animation: popIn 0.5s ease-out;
+        }
+        .pacco-emoji {
+            font-size: 8rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: vibraPacco 2s infinite;
+            cursor: pointer;
+        }
+        @keyframes vibraPacco { 
+            0%, 100% { transform: rotate(0deg) scale(1); } 
+            25% { transform: rotate(5deg) scale(1.1); } 
+            75% { transform: rotate(-5deg) scale(1.1); } 
+        }
+
+        /* --- VISTA FOTO FINALE --- */
+        #vista-foto {
+            display: none; /* Nascosta all'inizio */
+            flex-direction: column; align-items: center; width: 100%;
+            animation: popIn 0.5s ease-out;
         }
         
         #immagine-cartolina { 
-            /* REGOLE DI VISUALIZZAZIONE NORMALE */
-            width: auto; 
-            height: auto;
-            
-            /* Limiti per non uscire dallo schermo, ma senza forzare ingrandimenti */
-            max-width: 100vw; 
-            max-height: 75vh; 
-            
-            object-fit: contain;
-            
-            /* Togliamo le ombre complesse che sui cellulari vecchi fanno sfocatura */
-            border: 5px solid white;
+            width: auto; height: auto; max-width: 100vw; max-height: 75vh; 
+            object-fit: contain; border: 5px solid white;
         }
 
         .bottoni-container {
@@ -105,16 +121,18 @@
             border: none; cursor: pointer; padding: 15px 30px; border-radius: 50px;
             font-family: 'Playfair Display', serif; font-weight: bold; font-size: 1rem;
             text-decoration: none; text-align: center; width: 250px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: block;
         }
 
         .btn-chiudi { background: white; color: #990000; margin-bottom: 20px; }
         .btn-scarica { background: #27ae60; color: white; }
+        .btn-pacco { background: #d4af37; color: #581212; font-size: 1.2rem; box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
         
         .istruzioni-mobile {
             color: #ddd; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
+        
+        @keyframes popIn { from {opacity: 0; transform: scale(0.8);} to {opacity: 1; transform: scale(1);} }
 
     </style>
 </head>
@@ -134,21 +152,29 @@
         <div class="lettera" onclick="event.stopPropagation()">
             <h2 class="testo-lettera" id="domanda-testo">Per chi è la cartolina?</h2>
             <input type="text" id="nomeInput" placeholder="Scrivi il nome...">
-            <button id="btn-apri" onclick="mostraCartolina()">Apri</button>
+            <button id="btn-apri" onclick="apriLettera()">Apri</button>
         </div>
         <div class="flap-lati"></div><div class="flap-lati destra"></div><div class="flap-sotto"></div>
         <div class="flap-sopra"></div><div class="sigillo">🎄</div>
     </div>
 
-    <div id="overlay-cartolina">
-        <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
+    <div id="overlay-generale">
         
-        <div class="bottoni-container">
-            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
-            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
-            
-            <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
+        <div id="vista-pacco">
+            <div class="pacco-emoji" onclick="apriPaccoFinal()">🎁</div>
+            <button class="btn-azione btn-pacco" id="btn-apri-pacco" onclick="apriPaccoFinal()">APRI PACCO</button>
         </div>
+
+        <div id="vista-foto">
+            <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
+            
+            <div class="bottoni-container">
+                <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
+                <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
+                <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -158,6 +184,7 @@
                 domanda: "Per chi è la cartolina?",
                 placeholder: "Scrivi il nome...",
                 apri: "Apri",
+                apriPacco: "APRI PACCO", // Nuova traduzione
                 originale: "APRI ORIGINALE",
                 istruzioni: "(Tieni premuto sulla foto per salvare)",
                 chiudi: "CHIUDI X"
@@ -167,6 +194,7 @@
                 domanda: "Pre koho je pohľadnica?",
                 placeholder: "Napíš meno...",
                 apri: "Otvoriť",
+                apriPacco: "OTVORIŤ DARČEK", // Nuova traduzione
                 originale: "OTVORIŤ ORIGINÁL",
                 istruzioni: "(Podržaním prsta uložíš)",
                 chiudi: "ZAVRIEŤ X"
@@ -178,6 +206,7 @@
             document.getElementById('domanda-testo').innerText = traduzioni[lingua].domanda;
             document.getElementById('nomeInput').placeholder = traduzioni[lingua].placeholder;
             document.getElementById('btn-apri').innerText = traduzioni[lingua].apri;
+            document.getElementById('btn-apri-pacco').innerText = traduzioni[lingua].apriPacco; // Aggiorna bottone pacco
             document.getElementById('link-download').innerText = traduzioni[lingua].originale;
             document.getElementById('istruzioni-testo').innerText = traduzioni[lingua].istruzioni;
             document.getElementById('btn-chiudi').innerText = traduzioni[lingua].chiudi;
@@ -188,10 +217,9 @@
         }
 
         // --- DATABASE ---
-        // IMPORTANTE: Assicurati che questi link siano i "DIRECT LINK" da ImgBB o Postimages
-        // Devono finire con .png o .jpg e NON devono essere pagine web.
+        // RICORDA: USA I LINK "NON RIDIMENSIONATI" DI POSTIMAGES!
         const databaseCartoline = {
-            "blas": "https://ibb.co/NgkX4Lz8",
+          "blas": "https://ibb.co/NgkX4Lz8",
             "ian":"https://ibb.co/DDSPm1wD",
             "john":"https://ibb.co/xbCNs0v",
             "matteo":"https://ibb.co/zhQcT9Rw",
@@ -214,6 +242,8 @@
         const cartolinaDefault = "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png"; 
 
         let isAperta = false;
+        // Variabile globale per ricordare il link tra i due passaggi
+        let linkCorrente = ""; 
 
         function apriBusta() {
             if (!isAperta) {
@@ -226,32 +256,43 @@
             }
         }
 
-        function mostraCartolina() {
+        // MODIFICA 2: Primo step - Trova il link e mostra il pacco
+        function apriLettera() {
             const nome = document.getElementById('nomeInput').value.trim().toLowerCase();
-            const imgElement = document.getElementById('immagine-cartolina');
-            const overlay = document.getElementById('overlay-cartolina');
-            const btnDownload = document.getElementById('link-download');
-
             if(nome === "") return;
 
-            let linkImmagine = "";
+            // 1. Trova il link giusto
             if (databaseCartoline[nome]) {
-                linkImmagine = databaseCartoline[nome];
+                linkCorrente = databaseCartoline[nome];
             } else {
-                linkImmagine = cartolinaDefault; 
+                linkCorrente = cartolinaDefault; 
             }
 
-            imgElement.src = linkImmagine;
-            btnDownload.href = linkImmagine;
+            // 2. Prepara le viste: Mostra Pacco, Nascondi Foto
+            document.getElementById('vista-pacco').style.display = 'flex';
+            document.getElementById('vista-foto').style.display = 'none';
 
+            // 3. Mostra l'overlay generale
+            const overlay = document.getElementById('overlay-generale');
             overlay.style.display = 'flex';
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-            }, 50);
+            setTimeout(() => { overlay.style.opacity = '1'; }, 50);
+        }
+
+        // MODIFICA 2: Secondo step - Nasconde pacco e mostra foto
+        function apriPaccoFinal() {
+            // 1. Nascondi il pacco
+            document.getElementById('vista-pacco').style.display = 'none';
+
+            // 2. Imposta l'immagine e il link usando la variabile globale
+            document.getElementById('immagine-cartolina').src = linkCorrente;
+            document.getElementById('link-download').href = linkCorrente;
+
+            // 3. Mostra la foto
+            document.getElementById('vista-foto').style.display = 'flex';
         }
 
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") mostraCartolina();
+            if (event.key === "Enter") apriLettera();
         });
     </script>
 </body>
