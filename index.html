@@ -14,8 +14,6 @@
             display: flex; flex-direction: column; 
             justify-content: center; align-items: center; overflow: hidden;
             font-family: 'Playfair Display', serif;
-            /* Fix per evitare sfarfallii su mobile */
-            -webkit-font-smoothing: antialiased;
         }
 
         /* --- SELETTORE LINGUA --- */
@@ -52,8 +50,6 @@
             position: relative; width: 320px; height: 220px; 
             cursor: pointer; z-index: 10; transform: translateY(20px); 
             transition: transform 0.3s;
-            /* Forza rendering hardware per evitare sfocature */
-            transform: translateZ(0); 
         }
         .wrapper-busta:not(.aperta) { animation: galleggia 3s ease-in-out infinite; }
         @keyframes galleggia { 0%, 100% { transform: translateY(20px) rotate(0deg); } 50% { transform: translateY(10px) rotate(1deg); } }
@@ -74,37 +70,27 @@
         input { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1.1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
         button { background: #b30000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
         
-        /* --- VISUALIZZATORE FIX NITIDEZZA --- */
+        /* --- VISUALIZZATORE FORZATO GRANDE --- */
         #overlay-cartolina {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
             flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease; /* Transizione più veloce */
+            opacity: 0; transition: opacity 0.3s ease;
             padding: 10px; box-sizing: border-box;
-            
-            /* Fix sfocatura mobile */
-            -webkit-backdrop-filter: none; 
-            backdrop-filter: none;
         }
         
         #immagine-cartolina { 
-            width: auto; height: auto;
-            max-width: 98%; max-height: 75vh; 
-            object-fit: contain;
+            /* REGOLE "SPACCA TUTTO" PER MOBILE */
+            width: 95vw; /* 95% della larghezza dello schermo */
+            height: auto; /* L'altezza si adatta da sola */
+            max-height: 75vh; /* Ma non uscire dallo schermo in verticale */
             
-            /* CORNICE FATTA CON BOX-SHADOW (Più nitida su mobile) */
+            object-fit: contain; /* Assicura che si veda tutta */
+            
             background-color: white;
-            padding: 10px; /* Effetto cornice bianca */
+            padding: 5px; 
             border-radius: 4px;
-            box-shadow: 0 0 0 2px #d4af37, 0 20px 50px rgba(0,0,0,0.9);
-            
-            /* Rimosso transform:scale iniziale per evitare blur */
-            transform: none; 
-            
-            /* Fix rendering */
-            image-rendering: -webkit-optimize-contrast;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
         .bottoni-container {
@@ -116,8 +102,6 @@
             font-family: 'Playfair Display', serif; font-weight: bold; font-size: 1rem;
             text-decoration: none; text-align: center; width: 220px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            /* Fix sfocatura testo bottoni */
-            transform: translateZ(0);
         }
 
         .btn-chiudi { background: white; color: #990000; }
@@ -127,12 +111,6 @@
             color: #bbb; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
 
-        @media (max-width: 600px) {
-            .titolo-auguri { font-size: 3rem; margin-bottom: 30px; }
-            .wrapper-busta { transform: scale(0.85) translateY(20px); }
-            /* Su mobile togliamo ogni ombra pesante che può causare lag/blur */
-            #immagine-cartolina { box-shadow: 0 0 0 5px white, 0 10px 30px rgba(0,0,0,0.8); padding: 0; }
-        }
     </style>
 </head>
 <body>
@@ -203,6 +181,7 @@
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
+        // --- ATTENZIONE: MODIFICA I LINK QUI SOTTO TOGLIENDO [url] E [img] ---
         const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
