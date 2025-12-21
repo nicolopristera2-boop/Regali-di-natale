@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- SFONDO --- */
+        /* --- SFONDO ELEGANTE (Rosso Vino) --- */
         body {
             margin: 0; padding: 0; height: 100vh; width: 100vw;
             background: radial-gradient(circle at center, #7b0d1e 0%, #2f0505 100%);
@@ -69,28 +69,30 @@
         .testo-lettera { color: #8b0000; font-size: 1.5rem; margin: 0 0 15px 0; line-height: 1.2; text-align: center; }
         input { width: 80%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Playfair Display', serif; text-align: center; font-size: 1.1rem; margin-bottom: 10px; background: rgba(255,255,255,0.95); }
         button { background: #b30000; color: #fff; border: none; padding: 10px 30px; border-radius: 30px; font-size: 1.1rem; cursor: pointer; transition: transform 0.1s; font-family: 'Playfair Display', serif; }
-        
-        /* --- VISUALIZZATORE FORZATO GRANDE --- */
+        button:hover { background: #d00000; transform: scale(1.05); }
+
+        /* --- VISUALIZZATORE IMMAGINE --- */
         #overlay-cartolina {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 200; 
             flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
+            opacity: 0; transition: opacity 0.4s ease;
             padding: 10px; box-sizing: border-box;
         }
         
         #immagine-cartolina { 
-            /* REGOLE "SPACCA TUTTO" PER MOBILE */
-            width: 95vw; /* 95% della larghezza dello schermo */
-            height: auto; /* L'altezza si adatta da sola */
-            max-height: 75vh; /* Ma non uscire dallo schermo in verticale */
+            /* REGOLE DI VISUALIZZAZIONE NORMALE */
+            width: auto; height: auto;
+            max-width: 95%; max-height: 70vh; /* Non uscire dallo schermo */
+            object-fit: contain;
             
-            object-fit: contain; /* Assicura che si veda tutta */
+            border: 10px solid #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             
-            background-color: white;
-            padding: 5px; 
-            border-radius: 4px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            /* Fondamentale per salvare su mobile */
+            pointer-events: auto; 
+            user-select: none; -webkit-user-select: none;
         }
 
         .bottoni-container {
@@ -108,9 +110,15 @@
         .btn-scarica { background: #27ae60; color: white; }
         
         .istruzioni-mobile {
-            color: #bbb; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
+            color: #ddd; font-size: 0.9rem; margin-top: 5px; text-align: center; font-style: italic;
         }
 
+        /* MEDIA QUERY MOBILE */
+        @media (max-width: 600px) {
+            .titolo-auguri { font-size: 3rem; margin-bottom: 30px; }
+            .wrapper-busta { transform: scale(0.85) translateY(20px); }
+            #immagine-cartolina { max-width: 98%; border-width: 5px; }
+        }
     </style>
 </head>
 <body>
@@ -139,8 +147,9 @@
         <img id="immagine-cartolina" src="" alt="Cartolina di Auguri">
         
         <div class="bottoni-container">
-            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
-            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto per salvare)</div>
+            <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI PER SALVARE</a>
+            <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
+            
             <button class="btn-azione btn-chiudi" id="btn-chiudi" onclick="location.reload()">CHIUDI X</button>
         </div>
     </div>
@@ -152,8 +161,8 @@
                 domanda: "Per chi è la cartolina?",
                 placeholder: "Scrivi il nome...",
                 apri: "Apri",
-                originale: "APRI ORIGINALE",
-                istruzioni: "(Tieni premuto per salvare)",
+                originale: "APRI PER SALVARE",
+                istruzioni: "(Tieni premuto sulla foto per salvare)",
                 chiudi: "CHIUDI X"
             },
             sk: {
@@ -161,7 +170,7 @@
                 domanda: "Pre koho je pohľadnica?",
                 placeholder: "Napíš meno...",
                 apri: "Otvoriť",
-                originale: "OTVORIŤ ORIGINÁL",
+                originale: "OTVORIŤ A ULOŽIŤ",
                 istruzioni: "(Podržaním prsta uložíš)",
                 chiudi: "ZAVRIEŤ X"
             }
@@ -181,7 +190,8 @@
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
-        // --- ATTENZIONE: MODIFICA I LINK QUI SOTTO TOGLIENDO [url] E [img] ---
+        // --- ATTENZIONE: MODIFICA I LINK QUI SOTTO! ---
+        // NON USARE [url] o [img]. Solo il link puro.
         const databaseCartoline = {
             "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
             "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
@@ -239,7 +249,7 @@
             overlay.style.display = 'flex';
             setTimeout(() => {
                 overlay.style.opacity = '1';
-            }, 10);
+            }, 50);
         }
 
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
