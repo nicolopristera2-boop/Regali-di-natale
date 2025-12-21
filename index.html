@@ -80,25 +80,29 @@
             box-sizing: border-box;
         }
         
-        #immagine-cartolina { 
-            /* FORZATURA DIMENSIONI: */
-            height: 75vh; /* Altezza fissa al 75% dello schermo */
-            width: auto;  /* La larghezza si adatta per non deformare */
+       #immagine-cartolina { 
+            /* DIMENSIONI INTELLIGENTI */
+            width: auto;
+            height: auto;
             
-            /* Se la foto è panoramica e diventa troppo larga, la blocchiamo ai bordi */
-            max-width: 95vw; 
+            /* Non diventare mai più grande della foto originale */
+            max-width: 100%; 
+            max-height: 85vh; 
+            
+            object-fit: contain;
 
-            object-fit: contain; /* Assicura che si veda tutta la foto */
+            /* CORNICE */
+            border: 12px solid #ffffff;
+            border-radius: 8px;
             
-            /* CORNICE BELLA */
-            border: 10px solid #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.4); /* Alone dorato intenso */
-            
-            transform: scale(0.5); /* Parte piccola */
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Effetto rimbalzo */
+            /* OMBRA PROFONDA PER STACCARE DALLO SFONDO */
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.9),
+                0 0 30px rgba(255, 215, 0, 0.4); /* Alone dorato */
+
+            transform: scale(0.8); 
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         .btn-chiudi { 
             margin-top: 20px;
             background: white; 
