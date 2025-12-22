@@ -1,0 +1,1 @@
+This program, based on the search term, connects a link associated with it. This link takes you to a site (https://imgbb.com) where you can upload files and access them via links. An idea given to me by 
