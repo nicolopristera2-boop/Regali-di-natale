@@ -17,7 +17,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- SELETTORE LINGUA --- */
+        /* --- LINGUA --- */
         .lingua-switch {
             position: absolute; top: 20px; right: 20px; z-index: 150;
             display: flex; gap: 10px;
@@ -28,15 +28,15 @@
         }
         .btn-lang.attivo { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
 
-        /* --- TESTI --- */
+        /* --- TITOLO --- */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
             font-size: 3.5rem; color: #ffda79; 
             text-shadow: 0 0 10px rgba(255, 218, 121, 0.3), 2px 2px 0px #1a0202;
-            margin-bottom: 80px; 
-            z-index: 100; text-align: center;
+            margin-bottom: 80px; z-index: 100; text-align: center;
             animation: luccichio 3s infinite alternate; position: relative;
             padding: 0 15px; line-height: 1.1;
+            pointer-events: none; /* FIX: Il titolo non blocca più i clic sulla busta */
         }
         @keyframes luccichio { from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); } to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); } }
         
@@ -123,13 +123,8 @@
         }
         
         #immagine-cartolina { 
-            /* Regola chiave: adatta l'immagine allo schermo SENZA tagliarla o forzarla */
-            width: auto; 
-            height: auto; 
-            max-width: 100vw; 
-            max-height: 70vh; 
-            object-fit: contain; 
-            border: 5px solid white;
+            width: auto; height: auto; max-width: 100vw; max-height: 70vh; 
+            object-fit: contain; border: 5px solid white;
         }
 
         .bottoni-container {
@@ -188,7 +183,6 @@
 
         <div id="vista-foto">
             <img id="immagine-cartolina" src="" alt="Caricamento...">
-            
             <div class="bottoni-container">
                 <a id="link-download" class="btn-azione btn-scarica" href="#" target="_blank">APRI ORIGINALE</a>
                 <div class="istruzioni-mobile" id="istruzioni-testo">(Tieni premuto sulla foto per salvare)</div>
@@ -237,39 +231,44 @@
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
-       const databaseCartoline = {
-            "blas": "https://ibb.co/NgkX4Lz8",
-            "mate": "https://ibb.co/NgkX4Lz8",
-            "melvin": "https://ibb.co/NgkX4Lz8",
-            "blas melvin": "https://ibb.co/NgkX4Lz8",
-            "ian":"https://ibb.co/0Vrt8DqG",
-            "john":"https://ibb.co/xbCNs0v",
-            "matteo":"https://ibb.co/zhQcT9Rw",
-           "matte":"https://ibb.co/zhQcT9Rw",
-            "mico":"https://ibb.co/SDdwx7Z0",
-            "jonel mico":"https://ibb.co/SDdwx7Z0",
-            "jonel":"https://ibb.co/SDdwx7Z0",
-            "nela":"https://ibb.co/GQWPb5V8",
-            "petronela":"https://ibb.co/6c23vFyj",
-            "nonno orlando":"https://ibb.co/RkHQ9SMt",
-            "orlando":"https://ibb.co/RkHQ9SMt",
-            "vanila":"https://ibb.co/WNGmtr3G",
-           "vani":"https://ibb.co/WNGmtr3G",
-            "dalida":"https://ibb.co/Cp6cXd2y",
-            "zio alessio":"https://ibb.co/dFQ79Cb",
-            "alessio":"https://ibb.co/dFQ79Cb",
-            "zia ale":"https://ibb.co/Kc0ZnVbK",
-            "ale":"https://ibb.co/Kc0ZnVbK",
-            "alessandra":"https://ibb.co/Kc0ZnVbK",
-            "zio dado":"https://ibb.co/Kc0ZnVbK",
-            "davide":"https://ibb.co/Kc0ZnVbK",
-            "jacopo":"https://ibb.co/JjwKnRgX",
-           "ginni":"https://ibb.co/KzqQZCJw",
-           "ginevra":"https://ibb.co/KzqQZCJw",
-           "ire":"https://ibb.co/N2F0yRw5",
-           "irene":"https://ibb.co/N2F0yRw5",
+        // --- DATABASE CORRETTO E SICURO ---
+        // ATTENZIONE AI LINK: Devono finire con .png o .jpg
+        // ESEMPIO CORRETTO: "https://i.ibb.co/codice/nome.png"
+        // ESEMPIO SBAGLIATO: "https://ibb.co/codice"
+        const databaseCartoline = {
+            "blas": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "mate": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "melvin": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "blas melvin": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "ian":"https://i.postimg.cc/zLmmGD34/Cartolina-Ian.png",
+            "john":"https://i.postimg.cc/SX00xQjw/Cartolina-john.png",
+            "matteo":"https://i.postimg.cc/FfttHF1M/Cartolina-Matteo.png",
+            "matte":"https://i.postimg.cc/FfttHF1M/Cartolina-Matteo.png",
+            "mico":"https://i.postimg.cc/06ggy5bR/Cartolina-Mico.png",
+            "jonel mico":"https://i.postimg.cc/06ggy5bR/Cartolina-Mico.png",
+            "jonel":"https://i.postimg.cc/06ggy5bR/Cartolina-Mico.png",
+            "nela":"https://i.postimg.cc/CZb3ByqG/Cartolina-Nela.png",
+            "petronela":"https://i.postimg.cc/CZb3ByqG/Cartolina-Nela.png",
+            "nonno orlando":"https://i.postimg.cc/phxgK0fG/Cartolina-Nonno-Orlando.png",
+            "orlando":"https://i.postimg.cc/phxgK0fG/Cartolina-Nonno-Orlando.png",
+            "vanila":"https://i.postimg.cc/8FL2J86m/Cartolina-vanila-e-dalida.png",
+            "vani":"https://i.postimg.cc/8FL2J86m/Cartolina-vanila-e-dalida.png",
+            "dalida":"https://i.postimg.cc/8FL2J86m/Cartolina-vanila-e-dalida.png",
+            "zio alessio":"https://i.postimg.cc/LYTGDzDc/Cartolino-Zio-Alessio.png",
+            "alessio":"https://i.postimg.cc/LYTGDzDc/Cartolino-Zio-Alessio.png",
+            "zia ale":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
+            "ale":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
+            "alessandra":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
+            "zio dado":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
+            "davide":"https://i.postimg.cc/zbj47n7M/Zia-e-Zio.png",
+            "jacopo":"https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "ginni":"https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "ginevra":"https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "budda": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "federico": "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "ire":"https://i.postimg.cc/crbyPBW1/Cartolina-blas.png",
+            "irene":"https://i.postimg.cc/crbyPBW1/Cartolina-blas.png"
         };
-
         
         const cartolinaDefault = "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png"; 
 
@@ -297,15 +296,12 @@
                 linkCorrente = cartolinaDefault; 
             }
 
-            // Imposta subito il link sui pulsanti del pacco
             document.getElementById('btn-apri-pacco').href = linkCorrente;
             document.getElementById('link-pacco-img').href = linkCorrente;
             
-            // Imposta anche l'immagine per la vista finale (se uno torna indietro)
             document.getElementById('immagine-cartolina').src = linkCorrente;
             document.getElementById('link-download').href = linkCorrente;
 
-            // Mostra Pacco
             document.getElementById('vista-pacco').style.display = 'flex';
             document.getElementById('vista-foto').style.display = 'none';
 
@@ -314,11 +310,7 @@
             setTimeout(() => { overlay.style.opacity = '1'; }, 50);
         }
 
-        // Questa funzione ora serve solo se vogliamo mostrare la foto dentro il sito
-        // Ma col pacco cliccabile che apre nuova scheda, è un extra.
         function apriPaccoFinal() {
-            // Se vuoi che il pacco apra la foto DENTRO il sito, usa questo codice.
-            // Se vuoi che apra SOLO la nuova scheda, non serve cambiare nulla nel CSS.
             document.getElementById('vista-pacco').style.display = 'none';
             document.getElementById('vista-foto').style.display = 'flex';
         }
