@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Auguri Speciali / Veselé Vianoce</title>
     <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
     <style>
         /* --- SFONDO --- */
         body {
@@ -16,7 +17,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- LINGUA --- */
+        /* --- SELETTORE LINGUA --- */
         .lingua-switch {
             position: absolute; top: 20px; right: 20px; z-index: 150;
             display: flex; gap: 10px;
@@ -27,7 +28,7 @@
         }
         .btn-lang.attivo { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
 
-        /* --- TITOLO --- */
+        /* --- TESTI --- */
         .titolo-auguri {
             font-family: 'Mountains of Christmas', cursive;
             font-size: 3.5rem; color: #ffda79; 
@@ -35,7 +36,7 @@
             margin-bottom: 80px; z-index: 100; text-align: center;
             animation: luccichio 3s infinite alternate; position: relative;
             padding: 0 15px; line-height: 1.1;
-            pointer-events: none; /* FIX: Il titolo non blocca più i clic sulla busta */
+            pointer-events: none; 
         }
         @keyframes luccichio { from { text-shadow: 0 0 10px rgba(255, 218, 121, 0.2); } to { text-shadow: 0 0 25px rgba(255, 218, 121, 0.8); } }
         
@@ -80,7 +81,6 @@
             padding: 10px; opacity: 0; transition: opacity 0.4s ease;
         }
 
-        /* VISTA PACCO */
         #vista-pacco {
             display: flex; flex-direction: column; align-items: center; gap: 40px;
             animation: popIn 0.5s ease-out;
@@ -229,42 +229,46 @@
             document.getElementById('btn-sk').classList.remove('attivo');
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
-      
+
+        // --- DATABASE ---
+        // ISTRUZIONI PER I LINK GITHUB:
+        // 1. Assicurati che le tue foto siano nella cartella "immagini" (o cambia il nome sotto).
+        // 2. Assicurati che l'estensione (.jpg, .png) sia corretta.
+        
+        const cartellaGitHub = "./cartoline/"; // <--- CAMBIA QUESTO SE LA CARTELLA HA UN ALTRO NOME
+
         const databaseCartoline = {
-           "blas": "https://ibb.co/NgkX4Lz8",
-            "mate": "https://ibb.co/NgkX4Lz8",
-            "melvin": "https://ibb.co/NgkX4Lz8",
-            "blas melvin": "https://ibb.co/NgkX4Lz8",
-            "ian":"https://ibb.co/0Vrt8DqG",
-            "john":"https://ibb.co/xbCNs0v",
-            "matteo":"https://ibb.co/zhQcT9Rw",
-           "matte":"https://ibb.co/zhQcT9Rw",
-            "mico":"https://ibb.co/SDdwx7Z0",
-            "jonel mico":"https://ibb.co/SDdwx7Z0",
-            "jonel":"https://ibb.co/SDdwx7Z0",
-            "nela":"https://ibb.co/qLWb1PGw",
-            "petronela":"https://ibb.co/qLWb1PGw",
-            "nonno orlando":"https://ibb.co/RkHQ9SMt",
-            "orlando":"https://ibb.co/RkHQ9SMt",
-            "vanila":"https://ibb.co/WNGmtr3G",
-           "vani":"https://ibb.co/WNGmtr3G",
-            "dalida":"https://ibb.co/Cp6cXd2y",
-            "zio alessio":"https://ibb.co/dFQ79Cb",
-            "alessio":"https://ibb.co/dFQ79Cb",
-            "zia ale":"https://ibb.co/Kc0ZnVbK",
-            "ale":"https://ibb.co/Kc0ZnVbK",
-            "alessandra":"https://ibb.co/Kc0ZnVbK",
-            "zio dado":"https://ibb.co/Kc0ZnVbK",
-            "davide":"https://ibb.co/Kc0ZnVbK",
-            "jacopo":"https://ibb.co/JjwKnRgX",
-           "ginni":"https://ibb.co/KzqQZCJw",
-           "ginevra":"https://ibb.co/KzqQZCJw",
-           "ire":"https://ibb.co/N2F0yRw5",
-           "irene":"https://ibb.co/N2F0yRw5",
- 
+            "blas": cartellaGitHub + "Cartolina Blas",
+            "mate": cartellaGitHub + "Cartolina Blas",
+            "melvin": cartellaGitHub + "Cartolina Blas",
+            "blas melvin": cartellaGitHub + "Cartolina Bals.png",
+            "ian": cartellaGitHub + "Cartolina Ian.png",
+            "john": cartellaGitHub + "Cartolina john.png",
+            "matteo": cartellaGitHub + "Cartolina Matteo.png",
+            "matte": cartellaGitHub + "Cartolina Matteo.png",
+            "mico": cartellaGitHub + "Cartolina Mico.png",
+            "jonel mico": cartellaGitHub + "Cartolina Mico.png",
+            "jonel": cartellaGitHub + "Cartolina Mico.png",
+            "nela": cartellaGitHub + "Cartolina Nela.png",
+            "petronela": cartellaGitHub + "Cartolina Nela.png",
+            "nonno orlando": cartellaGitHub + "Cartolina Nonno Orlando.png",
+            "orlando": cartellaGitHub + "Cartolina Nonno Orlando.png",
+            "vanila": cartellaGitHub + "Cartolina Vanila.png",
+            "vani": cartellaGitHub + "Cartolina Vanila.png",
+            "dalida": cartellaGitHub + "Cartolina Dalida.png",
+            "zio alessio": cartellaGitHub + "Cartolino Zio Alessio.png",
+            "alessio": cartellaGitHub + "Cartolino Zio Alessio.png",
+            "zia ale": cartellaGitHub + "Zia e Zio.png",
+            "ale": cartellaGitHub + "Zia e Zio.png",
+            "alessandra": cartellaGitHub + "Zia e Zio.png",
+            "zio dado": cartellaGitHub + "Zia e Zio.png",
+            "davide": cartellaGitHub + "Zia e Zio.png",
+            "jacopo": cartellaGitHub + "Cartolina Jacopo.png",
+            "ginni": cartellaGitHub + "Cartolina Ginni.png",
+            "ginevra": cartellaGitHub + "Cartolina Ginni.png",
         };
         
-        const cartolinaDefault = "https://i.postimg.cc/crbyPBW1/Cartolina-blas.png"; 
+        const cartolinaDefault = cartellaGitHub + "Cartolina Blas.png"; // Metti qui una foto di default valida
 
         let isAperta = false;
         let linkCorrente = ""; 
@@ -290,12 +294,15 @@
                 linkCorrente = cartolinaDefault; 
             }
 
+            // Imposta subito il link sui pulsanti del pacco
             document.getElementById('btn-apri-pacco').href = linkCorrente;
             document.getElementById('link-pacco-img').href = linkCorrente;
             
+            // Imposta anche l'immagine per la vista finale (se uno torna indietro)
             document.getElementById('immagine-cartolina').src = linkCorrente;
             document.getElementById('link-download').href = linkCorrente;
 
+            // Mostra Pacco
             document.getElementById('vista-pacco').style.display = 'flex';
             document.getElementById('vista-foto').style.display = 'none';
 
@@ -304,9 +311,10 @@
             setTimeout(() => { overlay.style.opacity = '1'; }, 50);
         }
 
+        // Funzione opzionale se vuoi tornare alla vista foto interna
         function apriPaccoFinal() {
-            document.getElementById('vista-pacco').style.display = 'none';
-            document.getElementById('vista-foto').style.display = 'flex';
+            // Nota: I link sopra (href) apriranno una nuova scheda.
+            // Se vuoi rimanere nel sito, rimuovi href dai link HTML e usa onclick="apriPaccoFinal()"
         }
 
         document.getElementById("nomeInput").addEventListener("keypress", function(event) {
