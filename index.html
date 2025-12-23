@@ -65,14 +65,15 @@
             width: 100%; height: 100%;
         }
 
-        /* Contenitore 3D per la cornice */
-        .scene-cornice {
-            width: 90vw; max-width: 500px; /* Larghezza massima della cornice */
-            height: 65vh; max-height: 700px; /* Altezza massima */
-            perspective: 1500px; /* Profondità 3D */
-            margin-bottom: 20px;
-        }
-
+       /* Contenitore 3D per la cornice */
+.scene-cornice {
+    width: 90vw; 
+    max-width: 700px; 
+    height: auto;     
+    aspect-ratio: 16 / 9; 
+     perspective: 1500px; /* Profondità 3D */
+    margin-bottom: 20px;
+}
         /* L'oggetto che ruota */
         .cornice-container {
             position: relative; width: 100%; height: 100%;
