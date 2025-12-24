@@ -162,7 +162,7 @@
         <div class="busta-body"></div>
         <div class="lettera" onclick="event.stopPropagation()">
             <h2 class="testo-lettera" id="domanda-testo">Per chi è la cartolina?</h2>
-            <input type="text" id="nomeInput" placeholder="Scrivi il nome...">
+            <input type="text" id="nomeInput" placeholder="Scrivi il tuo nome...">
             <button id="btn-apri" onclick="controllaNomeEApriPacco()">Apri</button>
         </div>
         <div class="flap-lati"></div><div class="flap-lati destra"></div><div class="flap-sotto"></div>
@@ -207,7 +207,7 @@
             it: {
                 titolo: "Buon Natale",
                 domanda: "Per chi è la cartolina?",
-                placeholder: "Scrivi il nome...",
+                placeholder: "Scrivi il tuo nome...",
                 apri: "Apri",
                 apriPacco: "APRI PACCO",
                 istruzioniFlip: "(Tocca la cornice per girarla)",
@@ -217,7 +217,7 @@
             sk: {
                 titolo: "Veselé Vianoce",
                 domanda: "Pre koho je pohľadnica?",
-                placeholder: "Napíš meno...",
+                placeholder: "Napíš svoje meno...",
                 apri: "Otvoriť",
                 apriPacco: "OTVORIŤ DARČEK",
                 istruzioniFlip: "(Dotkni sa rámu a otoč ho)",
@@ -241,11 +241,8 @@
             document.getElementById('btn-' + lingua).classList.add('attivo');
         }
 
-        // --- NUOVO DATABASE (IMPORTANTE!) ---
-        // Ora ogni nome ha un "gruppo" con FRONTE e RETRO.
-        // Devi preparare le tue immagini in una cartella (es. "immagini") e aggiornare qui.
-        
-        const cartellaGitHub = "./cartoline/"; // Assicurati che questa cartella esista!
+        // --- NUOVO DATABASE  ---
+        const cartellaGitHub = "./cartoline/"; 
 
         const databaseCartoline = {
             
@@ -279,7 +276,6 @@
             "ginevra": { fronte: cartellaGitHub + "Cartolina Ginni.png", retro: cartellaGitHub + "dedica_generica.png" },
         };
         
-        // Cartolina di default se il nome non esiste (usa Blas come esempio)
         const cartolinaDefault = {
              fronte: cartellaGitHub + "blas_fronte.png",
              retro: cartellaGitHub + "blas_retro.png"
